@@ -34,7 +34,7 @@ font: 57 14pt;</string>
          <string>Capture (Space)</string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/resources/images/camera-icon.png</normaloff>:/resources/images/camera-icon.png</iconset>
         </property>
         <property name="iconSize">
@@ -65,7 +65,7 @@ font: 57 14pt;</string>
          <string>Record Video</string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/resources/images/record-icon.png</normaloff>:/resources/images/record-icon.png</iconset>
         </property>
         <property name="iconSize">
@@ -103,9 +103,9 @@ font: 57 14pt;</string>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="faceDetectorSelector">
         <property name="styleSheet">
-         <string notr="true">color: rgb(238, 238, 236);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
@@ -125,7 +125,7 @@ font: 57 14pt;</string>
       <item>
        <widget class="QComboBox" name="comboBox_2">
         <property name="styleSheet">
-         <string notr="true">color: rgb(238, 238, 236);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
@@ -135,7 +135,7 @@ font: 57 14pt;</string>
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset resource="../resources.qrc">
           <normaloff>:/resources/images/info.png</normaloff>:/resources/images/info.png</iconset>
         </property>
         <property name="iconSize">
@@ -267,7 +267,7 @@ background-color: rgb(186, 189, 182);</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

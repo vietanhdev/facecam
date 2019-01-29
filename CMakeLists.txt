@@ -22,7 +22,16 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 # add required source, header, ui and resource files
-add_executable(${PROJECT_NAME} "main.cpp" "mainwindow.h" "mainwindow.cpp" "mainwindow.ui" "resources.qrc")
+add_executable(${PROJECT_NAME} 
+    "src/main.cpp"
+    "src/mainwindow.cpp"
+    "src/mainwindow.ui"
+    "src/landmark_result.cpp"
+    "src/face_detector.cpp"
+    "src/face_detector_haarcascade.cpp"
+    "src/face_detector_ssd_resnet10.cpp"
+    "resources.qrc"
+)
 
 # link required libs
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets ${OpenCV_LIBS})
