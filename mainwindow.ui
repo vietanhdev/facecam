@@ -129,6 +129,26 @@ font: 57 14pt;</string>
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="infoBtn">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/resources/images/info.png</normaloff>:/resources/images/info.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="0" column="0">
@@ -195,7 +215,7 @@ font: 57 14pt;</string>
          </widget>
         </item>
         <item>
-         <widget class="QListView" name="listView">
+         <widget class="QListWidget" name="effectListWidget">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -215,8 +235,26 @@ font: 57 14pt;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">color: rgb(238, 238, 236);
+           <string notr="true">color: rgb(46, 52, 54);
 background-color: rgb(186, 189, 182);</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>80</width>
+            <height>90</height>
+           </size>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideRight</enum>
+          </property>
+          <property name="resizeMode">
+           <enum>QListView::Adjust</enum>
+          </property>
+          <property name="viewMode">
+           <enum>QListView::IconMode</enum>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

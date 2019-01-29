@@ -2,5 +2,8 @@
     <qresource prefix="/resources">
         <file>images/camera-icon.png</file>
         <file>images/record-icon.png</file>
+        <file>images/info.png</file>
+        <file>images/new-year-hat.png</file>
+        <file>images/no-effect.png</file>
     </qresource>
 </RCC>

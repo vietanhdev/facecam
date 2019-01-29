@@ -27,9 +27,12 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
+    void loadEffects();
 
 private slots:
-    void capture();
+    void captureBtn_clicked();
+    void recordBtn_clicked();
+    void showAboutBox();
     
 private:
     Ui::MainWindow *ui;
