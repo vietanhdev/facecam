@@ -15,7 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->infoBtn, SIGNAL(released()), this, SLOT(showAboutBox()));
 
     // Option selector events
-    connect(ui->faceDetectorSelector,SIGNAL(activated(int)),this,SLOT(faceDetectorSelector_activated()));
+    connect(ui->faceDetectorSelector, SIGNAL(activated(int)), this,
+            SLOT(faceDetectorSelector_activated()));
+    connect(ui->effectList, SIGNAL(itemSelectionChanged()), this,
+            SLOT(effectList_onselectionchange()));
 
     // load effects to use in this project
     loadEffects();
@@ -25,13 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() { delete ui; }
-
-void MainWindow::loadEffects() {
-    ui->effectListWidget->addItem(new QListWidgetItem(
-        QIcon(":/resources/images/no-effect.png"), "No effect"));
-    ui->effectListWidget->addItem(new QListWidgetItem(
-        QIcon(":/resources/images/new-year-hat.png"), "New Year Hat"));
-}
 
 void MainWindow::captureBtn_clicked() {
     QMessageBox::critical(this, "NOT IMPLEMENTED",
@@ -44,7 +40,21 @@ void MainWindow::recordBtn_clicked() {
 }
 
 void MainWindow::faceDetectorSelector_activated() {
-    current_face_detector_index = ui->faceDetectorSelector->itemData(ui->faceDetectorSelector->currentIndex()).toInt();
+    current_face_detector_index =
+        ui->faceDetectorSelector
+            ->itemData(ui->faceDetectorSelector->currentIndex())
+            .toInt();
+}
+
+void MainWindow::effectList_onselectionchange() {
+    QList<QListWidgetItem *> selected_effects = ui->effectList->selectedItems();
+
+    // Save selected effects
+    selected_effect_indices.clear();
+    for (size_t i = 0; i < selected_effects.count(); ++i) {
+        selected_effect_indices.push_back(
+            selected_effects[i]->data(Qt::UserRole).toInt());
+    }
 }
 
 void MainWindow::showAboutBox() {
@@ -74,13 +84,19 @@ void MainWindow::showCam() {
         video >> frame;
         if (!frame.empty()) {
             // Detect Faces
+            std::vector<LandMarkResult> landmarks;
             if (current_face_detector_index >= 0) {
-                std::vector<LandMarkResult> landmarks =
+                landmarks =
                     face_detectors[current_face_detector_index]->detect(frame);
 
-                // Draw faces to image
-                for (size_t i = 0; i < landmarks.size(); ++i) {
-                    cv::rectangle(frame, landmarks[i].getFaceRect(), cv::Scalar(0, 255, 0), 2);
+            } else {  // Clear old results
+                landmarks.clear();
+            }
+
+            for (size_t i = 0; i < selected_effect_indices.size(); ++i) {
+                if (selected_effect_indices[i] >= 0) {
+                    image_effects[selected_effect_indices[i]]->apply(frame,
+                                                                     landmarks);
                 }
             }
 
@@ -102,23 +118,65 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     exit(0);
 }
 
-
 // Load face detectors
 void MainWindow::loadFaceDetectors() {
-
     // Haar cascade detector
-    face_detectors.push_back(std::shared_ptr<FaceDetector>(new FaceDetectorHaarCascade()));
+    face_detectors.push_back(
+        std::shared_ptr<FaceDetector>(new FaceDetectorHaarCascade()));
 
     // SSD - ResNet10 detector
-    face_detectors.push_back(std::shared_ptr<FaceDetector>(new FaceDetectorSSDResNet10()));
+    face_detectors.push_back(
+        std::shared_ptr<FaceDetector>(new FaceDetectorSSDResNet10()));
 
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_detectors.size(); ++i) {
-        ui->faceDetectorSelector->addItem(QString::fromStdString(face_detectors[i]->getDetectorName()), QVariant(static_cast<int>(i)));
+        ui->faceDetectorSelector->addItem(
+            QString::fromStdString(face_detectors[i]->getDetectorName()),
+            QVariant(static_cast<int>(i)));
     }
     // Add None option
     ui->faceDetectorSelector->addItem("None", -1);
 
-    current_face_detector_index = 0; // set default face detector method
-    
+    current_face_detector_index = 0;  // set default face detector method
+}
+
+void MainWindow::loadEffects() {
+    // ui->effectList->addItem(new QListWidgetItem(
+    //     QIcon(":/resources/images/new-year-hat.png"), "New Year Hat"));
+    image_effects.push_back(
+        std::shared_ptr<ImageEffect>(new EffectDebugInfo()));
+
+    // Add "No Effect"
+    QListWidgetItem *new_effect = new QListWidgetItem(
+        QIcon(":/resources/images/no-effect.png"), "No Effect");
+    new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(-1)));
+    ui->effectList->addItem(new_effect);
+
+    for (int i = 0; i < image_effects.size(); ++i) {
+        QListWidgetItem *new_effect = new QListWidgetItem(
+            QIcon(QPixmap::fromImage(Mat2QImage(image_effects[i]->getIcon()))),
+            QString::fromStdString(image_effects[i]->getName()));
+        new_effect->setData(Qt::UserRole, QVariant(i));
+        ui->effectList->addItem(new_effect);
+    }
+}
+
+QImage MainWindow::Mat2QImage(cv::Mat const &src) {
+    cv::Mat temp;                     // make the same cv::Mat
+    cvtColor(src, temp, CV_BGR2RGB);  // cvtColor Makes a copt, that what i need
+    QImage dest((const uchar *)temp.data, temp.cols, temp.rows, temp.step,
+                QImage::Format_RGB888);
+    dest.bits();  // enforce deep copy, see documentation
+    // of QImage::QImage ( const uchar * data, int width, int height, Format
+    // format )
+    return dest;
+}
+
+cv::Mat MainWindow::QImage2Mat(QImage const &src) {
+    cv::Mat tmp(src.height(), src.width(), CV_8UC3, (uchar *)src.bits(),
+                src.bytesPerLine());
+    cv::Mat
+        result;  // deep copy just in case (my lack of knowledge with open cv)
+    cvtColor(tmp, result, CV_BGR2RGB);
+    return result;
 }

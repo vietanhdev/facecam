@@ -16,6 +16,9 @@
 #include "face_detector_haarcascade.h"
 #include "face_detector_ssd_resnet10.h"
 
+#include "image_effect.h"
+#include "effect_debug_info.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -37,6 +40,7 @@ private slots:
     void captureBtn_clicked();
     void recordBtn_clicked();
     void faceDetectorSelector_activated();
+    void effectList_onselectionchange();
     void showAboutBox();
     
 private:
@@ -49,8 +53,15 @@ private:
     std::vector<std::shared_ptr<FaceDetector>> face_detectors;
     int current_face_detector_index = -1; // Index of current face detector method in face_detectors
 
+    // Photo effects
+    std::vector<std::shared_ptr<ImageEffect>> image_effects;
+    std::vector<int> selected_effect_indices; // Indices of selected effect in image_effects
+
 public:
     void loadFaceDetectors();
+
+    QImage Mat2QImage(cv::Mat const& src);
+    cv::Mat QImage2Mat(QImage const& src);
 
 };
 

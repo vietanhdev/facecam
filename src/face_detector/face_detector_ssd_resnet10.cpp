@@ -41,7 +41,7 @@ std::vector<LandMarkResult> FaceDetectorSSDResNet10::detect(const cv::Mat & img)
             int y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frame_height);
 
             LandMarkResult landmark;
-            landmark.setFaceRect(cv::Rect(cv::Point(x1, y1), cv::Point(x2, y2)));
+            landmark.setFaceRect(cv::Rect(cv::Point(x1, y1), cv::Point(x2, y2)), confidence);
             landmark_results.push_back(landmark);
 
         }

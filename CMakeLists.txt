@@ -31,12 +31,15 @@ include_directories(
 # add required source, header, ui and resource files
 add_executable(${PROJECT_NAME} 
     "src/main.cpp"
+    "src/utility.cpp"
     "src/gui/mainwindow.cpp"
     "src/gui/mainwindow.ui"
     "src/landmark_result.cpp"
     "src/face_detector/face_detector.cpp"
     "src/face_detector/face_detector_haarcascade.cpp"
     "src/face_detector/face_detector_ssd_resnet10.cpp"
+    "src/effects/image_effect.cpp"
+    "src/effects/effect_debug_info.cpp"
     "resources.qrc"
 )
 
