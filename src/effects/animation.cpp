@@ -48,13 +48,13 @@ void Animation::setFPS(float fps) {
 
 // Apply animation into image at position cv::Rect rect
 void Animation::apply(cv::Mat& draw, cv::Rect rect) {
-    const cv::Mat& annimation = getFrame();
+    const cv::Mat& animation = getFrame();
 
-    float scale_factor = static_cast<float>(rect.width) / annimation.cols;
+    float scale_factor = static_cast<float>(rect.width) / animation.cols;
 
     // Optain the scaled cloud
     cv::Mat scaled_animation;
-    cv::resize(annimation, scaled_animation, cv::Size(), scale_factor, scale_factor);
+    cv::resize(animation, scaled_animation, cv::Size(), scale_factor, scale_factor);
 
     // Calculate the position of cloud
     int x1 = rect.tl().x;
