@@ -16,7 +16,7 @@ void Animation::addFrame(const std::string& img_path) {
 // Get frame by index
 const cv::Mat& Animation::getFrame(size_t index) {
     if (frames.size() == 0 || index < 0 || index >= frames.size()) {
-        return cv::Mat();
+        return dummy_frame;
     } else {
         return frames[index];
     }
@@ -46,21 +46,44 @@ void Animation::setFPS(float fps) {
     }
 }
 
-void Animation::alphaBlend(Mat& foreground, Mat& background, Mat& alpha,
-                           Mat& outImage) {
-    // Find number of pixels.
-    int numberOfPixels =
-        foreground.rows * foreground.cols * foreground.channels();
+// Apply animation into image at position cv::Rect rect
+void Animation::apply(cv::Mat& draw, cv::Rect rect) {
+    const cv::Mat& annimation = getFrame();
 
-    // Get floating point pointers to the data matrices
-    float* fptr = reinterpret_cast<float*>(foreground.data);
-    float* bptr = reinterpret_cast<float*>(background.data);
-    float* aptr = reinterpret_cast<float*>(alpha.data);
-    float* outImagePtr = reinterpret_cast<float*>(outImage.data);
+    float scale_factor = static_cast<float>(rect.width) / annimation.cols;
 
-    // Loop over all pixesl ONCE
-    for (int i = 0; i < numberOfPixels;
-         i++, outImagePtr++, fptr++, aptr++, bptr++) {
-        *outImagePtr = (*fptr) * (*aptr) + (*bptr) * (1 - *aptr);
+    // Optain the scaled cloud
+    cv::Mat scaled_animation;
+    cv::resize(annimation, scaled_animation, cv::Size(), scale_factor, scale_factor);
+
+    // Calculate the position of cloud
+    int x1 = rect.tl().x;
+    int y1 = rect.tl().y - rect.height / 5 - scaled_animation.rows;
+    int x2 = x1 + scaled_animation.cols;
+    int y2 = y1 + scaled_animation.rows;
+    cv::Point tl(x1, y1);
+    cv::Point br(x2, y2);
+    cv::Rect animation_pos(tl, br);
+
+    if (x1 < 0 || y1 < 0 || x2 >= draw.cols || y2 >= draw.rows) {
+        return;
     }
+
+    // Merge clouds into image
+    cv::Mat roi = draw(animation_pos);  // Image of background image
+    cv::Mat mask;
+    cv::Mat mask_inv;
+    cv::Mat scaled_animation_gray;
+    cv::cvtColor(scaled_animation, scaled_animation_gray, cv::COLOR_BGR2GRAY);
+    cv::threshold(scaled_animation_gray, mask, 1, 255, cv::THRESH_BINARY);
+    cv::bitwise_not(mask, mask_inv);
+
+    cv::Mat background, foreground;
+    cv::bitwise_and(roi, roi, background, mask_inv);
+    cv::bitwise_and(scaled_animation, scaled_animation, foreground, mask);
+
+    cv::Mat merged;
+    cv::add(background, foreground, merged);
+
+    merged.copyTo(roi);
 }

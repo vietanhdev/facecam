@@ -7,6 +7,7 @@
 
 class Animation {
    private:
+   		cv::Mat dummy_frame;
         std::vector<cv::Mat> frames;
         size_t current_frame_index = 0; // Index of current frame in vector `frames`
         Timer::time_duration_t animation_frame_duration = 0; // Time to change animation
@@ -20,7 +21,8 @@ class Animation {
     const cv::Mat & getFrame();
     void setFPS(float fps);
 
-    void alphaBlend(cv::Mat& foreground, cv::Mat& background, cv::Mat& alpha, cv::Mat& outImage);
+	// Apply animation into image at position cv::Rect rect
+	void apply(cv::Mat & draw, cv::Rect rect);
 
 };
 
