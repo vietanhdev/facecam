@@ -120,13 +120,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 // Load face detectors
 void MainWindow::loadFaceDetectors() {
-    // Haar cascade detector
-    face_detectors.push_back(
-        std::shared_ptr<FaceDetector>(new FaceDetectorHaarCascade()));
-
+    
     // SSD - ResNet10 detector
     face_detectors.push_back(
         std::shared_ptr<FaceDetector>(new FaceDetectorSSDResNet10()));
+
+    // Haar cascade detector
+    face_detectors.push_back(
+        std::shared_ptr<FaceDetector>(new FaceDetectorHaarCascade()));
 
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_detectors.size(); ++i) {
@@ -141,10 +142,14 @@ void MainWindow::loadFaceDetectors() {
 }
 
 void MainWindow::loadEffects() {
-    // ui->effectList->addItem(new QListWidgetItem(
-    //     QIcon(":/resources/images/new-year-hat.png"), "New Year Hat"));
+
+    // Effect: Debug
     image_effects.push_back(
         std::shared_ptr<ImageEffect>(new EffectDebugInfo()));
+
+    // Effect: Raining Cloud
+    image_effects.push_back(
+        std::shared_ptr<ImageEffect>(new EffectCloud()));
 
     // Add "No Effect"
     QListWidgetItem *new_effect = new QListWidgetItem(

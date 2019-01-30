@@ -6,6 +6,7 @@
 #include <opencv2/opencv.hpp>
 #include "landmark_result.h"
 
+
 class ImageEffect {
    private:
     std::string name;

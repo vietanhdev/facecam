@@ -18,6 +18,7 @@
 
 #include "image_effect.h"
 #include "effect_debug_info.h"
+#include "effect_cloud.h"
 
 namespace Ui {
 class MainWindow;

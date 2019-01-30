@@ -40,6 +40,9 @@ add_executable(${PROJECT_NAME}
     "src/face_detector/face_detector_ssd_resnet10.cpp"
     "src/effects/image_effect.cpp"
     "src/effects/effect_debug_info.cpp"
+    "src/effects/effect_cloud.cpp"
+    "src/timer.cpp"
+    "src/effects/animation.cpp"
     "resources.qrc"
 )
 
