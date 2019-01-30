@@ -52,11 +52,11 @@ void Animation::apply(cv::Mat& draw, cv::Rect rect) {
 
     float scale_factor = static_cast<float>(rect.width) / animation.cols;
 
-    // Optain the scaled cloud
+    // Optain the scaled animation
     cv::Mat scaled_animation;
     cv::resize(animation, scaled_animation, cv::Size(), scale_factor, scale_factor);
 
-    // Calculate the position of cloud
+    // Calculate the position of animation
     int x1 = rect.tl().x;
     int y1 = rect.tl().y - rect.height / 5 - scaled_animation.rows;
     int x2 = x1 + scaled_animation.cols;
@@ -69,7 +69,7 @@ void Animation::apply(cv::Mat& draw, cv::Rect rect) {
         return;
     }
 
-    // Merge clouds into image
+    // Merge animation into image
     cv::Mat roi = draw(animation_pos);  // Image of background image
     cv::Mat mask;
     cv::Mat mask_inv;
