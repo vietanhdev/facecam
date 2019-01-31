@@ -7,7 +7,7 @@
 
 class FaceDetectorHaarCascade : public FaceDetector {
 private:
-    const std::string FACE_CASCADE_PATH = "../models/detect_haarcascade/haarcascade_frontalface.xml";
+    const std::string FACE_CASCADE_PATH = "./models/detect_haarcascade/haarcascade_frontalface.xml";
     cv::CascadeClassifier face_cascade;
 public:
     FaceDetectorHaarCascade();

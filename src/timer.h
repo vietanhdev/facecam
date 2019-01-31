@@ -8,7 +8,7 @@ class Timer {
 
     public:
 
-    typedef  std::chrono::time_point<std::chrono::high_resolution_clock> time_point_t;
+    typedef  std::chrono::system_clock::time_point time_point_t;
 
     typedef long int time_duration_t;
 

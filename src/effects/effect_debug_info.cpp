@@ -2,7 +2,7 @@
 #include "effect_debug_info.h"
 
 EffectDebugInfo::EffectDebugInfo()
-    : ImageEffect("Debug Info", "../images/effects/debug_info/icon.png") {}
+    : ImageEffect("Debug Info", "./images/effects/debug_info/icon.png") {}
 EffectDebugInfo::~EffectDebugInfo() {}
 
 void EffectDebugInfo::apply(cv::Mat & draw, std::vector<LandMarkResult> & landmarks) {

@@ -51,7 +51,7 @@ void MainWindow::effectList_onselectionchange() {
 
     // Save selected effects
     selected_effect_indices.clear();
-    for (size_t i = 0; i < selected_effects.count(); ++i) {
+    for (int i = 0; i < selected_effects.count(); ++i) {
         selected_effect_indices.push_back(
             selected_effects[i]->data(Qt::UserRole).toInt());
     }
@@ -157,7 +157,7 @@ void MainWindow::loadEffects() {
     new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(-1)));
     ui->effectList->addItem(new_effect);
 
-    for (int i = 0; i < image_effects.size(); ++i) {
+    for (size_t i = 0; i < image_effects.size(); ++i) {
         QListWidgetItem *new_effect = new QListWidgetItem(
             QIcon(QPixmap::fromImage(Mat2QImage(image_effects[i]->getIcon()))),
             QString::fromStdString(image_effects[i]->getName()));
@@ -168,7 +168,7 @@ void MainWindow::loadEffects() {
 
 QImage MainWindow::Mat2QImage(cv::Mat const &src) {
     cv::Mat temp;                     // make the same cv::Mat
-    cvtColor(src, temp, CV_BGR2RGB);  // cvtColor Makes a copt, that what i need
+    cvtColor(src, temp, cv::COLOR_BGR2RGB);  // cvtColor Makes a copt, that what i need
     QImage dest((const uchar *)temp.data, temp.cols, temp.rows, temp.step,
                 QImage::Format_RGB888);
     dest.bits();  // enforce deep copy, see documentation
@@ -182,6 +182,6 @@ cv::Mat MainWindow::QImage2Mat(QImage const &src) {
                 src.bytesPerLine());
     cv::Mat
         result;  // deep copy just in case (my lack of knowledge with open cv)
-    cvtColor(tmp, result, CV_BGR2RGB);
+    cvtColor(tmp, result, cv::COLOR_BGR2RGB);
     return result;
 }

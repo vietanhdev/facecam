@@ -2,12 +2,12 @@
 #include "effect_cloud.h"
 
 EffectCloud::EffectCloud()
-    : ImageEffect("Raining Cloud", "../images/effects/cloud/icon.png") {
+    : ImageEffect("Raining Cloud", "./images/effects/cloud/icon.png") {
 
     cloud_animation.setFPS(6);
-    cloud_animation.addFrame("../images/effects/cloud/cloud_animation_1/1.png");
-    cloud_animation.addFrame("../images/effects/cloud/cloud_animation_1/2.png");
-    cloud_animation.addFrame("../images/effects/cloud/cloud_animation_1/3.png");
+    cloud_animation.addFrame("./images/effects/cloud/cloud_animation_1/1.png");
+    cloud_animation.addFrame("./images/effects/cloud/cloud_animation_1/2.png");
+    cloud_animation.addFrame("./images/effects/cloud/cloud_animation_1/3.png");
 
 }
 EffectCloud::~EffectCloud() {}

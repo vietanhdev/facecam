@@ -8,9 +8,9 @@
 class FaceDetectorSSDResNet10 : public FaceDetector {
    private:
     const std::string TENSORFLOW_CONFIG_FILE =
-        "../models/detect_ssd_resnet10/opencv_face_detector.pbtxt";
+        "./models/detect_ssd_resnet10/opencv_face_detector.pbtxt";
     const std::string TENSORFLOW_WEIGHT_FILE =
-        "../models/detect_ssd_resnet10/opencv_face_detector_uint8.pb";
+        "./models/detect_ssd_resnet10/opencv_face_detector_uint8.pb";
     cv::dnn::Net face_model;
 
    public:
