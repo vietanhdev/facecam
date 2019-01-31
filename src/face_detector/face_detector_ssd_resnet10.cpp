@@ -14,7 +14,7 @@ std::vector<LandMarkResult> FaceDetectorSSDResNet10::detect(const cv::Mat & img)
     // Detection results;
     std::vector <LandMarkResult> landmark_results; 
 
-    const float confidence_threshold = 0.7;
+    const float confidence_threshold = 0.7f;
     const cv::Scalar mean_val(104.0, 177.0, 123.0);
 
     // Detect face using loaded model

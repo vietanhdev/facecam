@@ -7,6 +7,7 @@
 namespace ml_cam {
 
 void setLabel(cv::Mat& im, const std::string label, const cv::Point & origin);
+std::string expand_user(std::string path);
 
 }
 

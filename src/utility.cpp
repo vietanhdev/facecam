@@ -16,4 +16,22 @@ void setLabel(cv::Mat& im, const std::string label, const cv::Point & origin)
 }
 
 
+std::string expand_user(std::string path) {
+	if (!path.empty() && path[0] == '~') {
+		assert(path.size() == 1 || path[1] == '/');  // or other error handling
+		char const* home = getenv("HOME");
+		if (home || ((home = getenv("USERPROFILE")))) {
+			path.replace(0, 1, home);
+		}
+		else {
+			char const *hdrive = getenv("HOMEDRIVE"),
+				*hpath = getenv("HOMEPATH");
+			assert(hdrive);  // or other error handling
+			assert(hpath);
+			path.replace(0, 1, std::string(hdrive) + hpath);
+		}
+	}
+	return path;
+}
+
 }
