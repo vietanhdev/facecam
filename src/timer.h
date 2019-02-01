@@ -10,7 +10,7 @@ class Timer {
 
     typedef  std::chrono::system_clock::time_point time_point_t;
 
-    typedef long int time_duration_t;
+    typedef long long int time_duration_t;
 
     time_point_t start_time_point;
 

@@ -30,6 +30,7 @@ const cv::Mat& Animation::getFrame() {
 
     Timer::time_duration_t duration_from_last_ani =
         Timer::calcTimePassed(last_animation_time);
+
     // If current frame is old enough, replace it with the new frame
     if (duration_from_last_ani > animation_frame_duration) {
         current_frame_index += 1;
@@ -44,7 +45,7 @@ const cv::Mat& Animation::getFrame() {
 // Set fps of animation
 void Animation::setFPS(float fps) {
     if (fps > 0) {
-        animation_frame_duration = 1000.0 / fps;
+        animation_frame_duration = static_cast<long int>(1000.0 / fps);
     }
 }
 

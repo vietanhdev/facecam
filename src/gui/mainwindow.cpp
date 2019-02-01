@@ -101,7 +101,7 @@ void MainWindow::showCam() {
             }
 
             // Show current image to users
-            QImage qimg(frame.data, frame.cols, frame.rows, frame.step,
+            QImage qimg(frame.data, static_cast<int>(frame.cols), static_cast<int>(frame.rows), static_cast<int>(frame.step),
                         QImage::Format_RGB888);
             pixmap.setPixmap(QPixmap::fromImage(qimg.rgbSwapped()));
             ui->graphicsView->fitInView(&pixmap, Qt::KeepAspectRatio);
@@ -171,7 +171,7 @@ void MainWindow::loadEffects() {
 QImage MainWindow::Mat2QImage(cv::Mat const &src) {
     cv::Mat temp;                     // make the same cv::Mat
     cvtColor(src, temp, cv::COLOR_BGR2RGB);  // cvtColor Makes a copt, that what i need
-    QImage dest((const uchar *)temp.data, temp.cols, temp.rows, temp.step,
+    QImage dest((const uchar *)temp.data, static_cast<int>(temp.cols), static_cast<int>(temp.rows), static_cast<int>(temp.step),
                 QImage::Format_RGB888);
     dest.bits();  // enforce deep copy, see documentation
     // of QImage::QImage ( const uchar * data, int width, int height, Format

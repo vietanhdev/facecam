@@ -108,6 +108,8 @@ cmake -G "Visual Studio 15 2017 Win64" ..
 
 - Right click `ml-cam` project > **Properties** > **Configuration Properties** > **C/C++** > **Code Generation** >  Set **Runtime Library** to `Multi-threaded (/MT)`. **You need to check this option again after changing the build mode (debug/release)**.
 
+- Set Working Directory in Debugging to TargetDir: Right click `ml-cam` project > **Properties** > **Configuration Properties** > **Debugging** > Set **Working Directory** to `$(TargetDir)`. 
+
 - Build project with Visual Studio 2017.
 
 - Deploy QT dlls:
