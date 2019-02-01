@@ -2,8 +2,8 @@
 
 FaceDetectorSSDResNet10::FaceDetectorSSDResNet10() {
     setDetectorName("SSD ResNet10");
-    fs::path TENSORFLOW_WEIGHT_FILE_PATH_ABS = fs::current_path() / TENSORFLOW_WEIGHT_FILE;
-    fs::path TENSORFLOW_CONFIG_FILE_PATH_ABS = fs::current_path() / TENSORFLOW_CONFIG_FILE;
+    fs::path TENSORFLOW_WEIGHT_FILE_PATH_ABS = fs::absolute(TENSORFLOW_WEIGHT_FILE);
+    fs::path TENSORFLOW_CONFIG_FILE_PATH_ABS = fs::absolute(TENSORFLOW_CONFIG_FILE);
     face_model = cv::dnn::readNetFromTensorflow(TENSORFLOW_WEIGHT_FILE_PATH_ABS.string(), TENSORFLOW_CONFIG_FILE_PATH_ABS.string());
 }
 
