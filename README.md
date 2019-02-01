@@ -2,6 +2,21 @@
 Funny camera app using Machine Learning - Project for Machine Learning and Data Mining course at HUST
 
 
+## NOTE FOR DEVELOPERS
+
+### 1. Bug of `QString::fromStdString()`
+
+- To convert std::string to QString, the following way causes an error on Windows:
+
+```
+QString::fromStdString(string_to_convert);
+```
+
+Instead, Use `QString::fromUtf8` like this:
+```
+QString::fromUtf8(string_to_convert.c_str());
+```
+
 ## DEVELOPMENT ENVIRONMENT AND BUILD
 
 ### Setup for Linux - Ubuntu 18.04

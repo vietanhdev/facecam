@@ -74,5 +74,6 @@ Thumbs.db
 
 build
 build-win
+build-linux
 .vscode
 

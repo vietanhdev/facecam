@@ -132,7 +132,7 @@ void MainWindow::loadFaceDetectors() {
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_detectors.size(); ++i) {
         ui->faceDetectorSelector->addItem(
-            QString::fromStdString(face_detectors[i]->getDetectorName()),
+			QString::fromUtf8(face_detectors[i]->getDetectorName().c_str()),
             QVariant(static_cast<int>(i)));
     }
     // Add None option
@@ -158,10 +158,12 @@ void MainWindow::loadEffects() {
     ui->effectList->addItem(new_effect);
 
     for (size_t i = 0; i < image_effects.size(); ++i) {
+		std::string effect_name = image_effects[i]->getName();
+		QString effect_name_qs = QString::fromUtf8(effect_name.c_str());
         QListWidgetItem *new_effect = new QListWidgetItem(
             QIcon(QPixmap::fromImage(Mat2QImage(image_effects[i]->getIcon()))),
-            QString::fromStdString(image_effects[i]->getName()));
-        new_effect->setData(Qt::UserRole, QVariant(i));
+			effect_name_qs);
+        new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(i)));
         ui->effectList->addItem(new_effect);
     }
 }
