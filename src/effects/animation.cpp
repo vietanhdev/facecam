@@ -10,7 +10,6 @@ Animation::~Animation() {}
 void Animation::addFrame(const std::string& img_path) {
 	fs::path abs_img_path = fs::absolute(img_path);
     cv::Mat frame;
-	std::cout << abs_img_path.string() << std::endl;
     frame = cv::imread(abs_img_path.string(), cv::IMREAD_COLOR);
     frames.push_back(frame);
 }
