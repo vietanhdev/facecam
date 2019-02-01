@@ -19,6 +19,13 @@ QString::fromUtf8(string_to_convert.c_str());
 
 ## DEVELOPMENT ENVIRONMENT AND BUILD
 
+### Requirements:
+
+- CMake >= 3.10
+- Qt 5
+- OpenCV >= 4.0.1
+- C++ 17 compiler
+
 ### Setup for Linux - Ubuntu 18.04
 
 #### Setup

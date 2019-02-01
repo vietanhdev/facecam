@@ -1,8 +1,12 @@
-#Specify the minimum version of CMake (3.1 is currently recommended by Qt)
-cmake_minimum_required(VERSION 3.1)
+#Specify the minimum version of CMake
+cmake_minimum_required(VERSION 3.10)
 
 # Specify project title
 project(ml-cam)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # To automatically run MOC when building (Meta Object Compiler)
 set(CMAKE_AUTOMOC ON)
