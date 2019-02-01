@@ -8,6 +8,7 @@ Animation::~Animation() {}
 
 // Add a frame to animation
 void Animation::addFrame(const std::string& img_path) {
+	fs::path abs_img_path = fs::current_path() / fs::path(img_path);
     cv::Mat frame;
     frame = cv::imread(img_path, cv::IMREAD_COLOR);
     frames.push_back(frame);

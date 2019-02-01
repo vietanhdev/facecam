@@ -106,16 +106,23 @@ cmake -G "Visual Studio 15 2017 Win64" ..
 
 - Set `ml-cam` as StartUp project. (Right click `ml-cam` project > Set as StartUp project)
 
-- Right click `ml-cam` project > **Properties** > **Configuration Properties** > **C/C++** > **Code Generation** >  Set **Runtime Library** to `Multi-threaded (/MT)`.
+- Right click `ml-cam` project > **Properties** > **Configuration Properties** > **C/C++** > **Code Generation** >  Set **Runtime Library** to `Multi-threaded (/MT)`. **You need to check this option again after changing the build mode (debug/release)**.
 
 - Build project with Visual Studio 2017.
 
 - Deploy QT dlls:
 
-```
-cd build-win\Debug
-windeployqt.exe  .\ml-cam.exe
-```
+    + For Release Build
+    ```
+    cd build-win\Release
+    windeployqt.exe --release  .\ml-cam.exe
+    ```
+
+    + For Debug Build
+    ```
+    cd build-win\Debug
+    windeployqt.exe --debug  .\ml-cam.exe
+    ```
 
 - **NOTE**:
     + If you build with Release mode, `cd build-win\Release`.

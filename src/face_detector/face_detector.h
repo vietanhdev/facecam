@@ -4,6 +4,7 @@
 #include <vector>
 #include "opencv2/opencv.hpp"
 #include "landmark_result.h"
+#include "filesystem_include.h"
 
 class FaceDetector {
 private:

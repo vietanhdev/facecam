@@ -1,5 +1,5 @@
 #Specify the minimum version of CMake
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 # Specify project title
 project(ml-cam)
@@ -50,8 +50,15 @@ add_executable(${PROJECT_NAME}
     "resources.qrc"
 )
 
+# Use C++ 17
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
+    set (CPP_FS_LIB "stdc++fs")
+endif()
+
 # link required libs
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets ${OpenCV_LIBS} ${CPP_FS_LIB})
 
 # Copy files
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

@@ -2,7 +2,8 @@
 
 FaceDetectorHaarCascade::FaceDetectorHaarCascade() {
     setDetectorName("Haar Cascade");
-    if( !face_cascade.load(FACE_CASCADE_PATH) ) {
+    fs::path FACE_CASCADE_PATH_ABS = fs::current_path() / FACE_CASCADE_PATH;
+    if( !face_cascade.load(FACE_CASCADE_PATH_ABS.string()) ) {
         std::cout << "Cannot Open Haar Cascade model: " << FACE_CASCADE_PATH << std::endl;
         exit(-1);
     }

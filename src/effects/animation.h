@@ -4,6 +4,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include "timer.h"
+#include "filesystem_include.h"
 
 class Animation {
    private:
