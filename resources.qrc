@@ -4,5 +4,6 @@
         <file>images/record-icon.png</file>
         <file>images/info.png</file>
         <file>images/no-effect.png</file>
+        <file>images/library-icon.png</file>
     </qresource>
 </RCC>

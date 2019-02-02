@@ -30,6 +30,7 @@ include_directories(
     "src/effects"
     "src/face_detector"
     "src/gui"
+    "src/gui/framelesswindow"
 )
 
 # add required source, header, ui and resource files
@@ -48,6 +49,12 @@ add_executable(${PROJECT_NAME}
     "src/timer.cpp"
     "src/effects/animation.cpp"
     "resources.qrc"
+    "src/gui/framelesswindow.qrc"
+    "src/gui/darkstyle.qrc"
+    "src/gui/DarkStyle.cpp"
+    "src/gui/framelesswindow/framelesswindow.cpp"
+    "src/gui/framelesswindow/windowdragger.cpp"
+    "src/gui/framelesswindow/framelesswindow.ui"
 )
 
 # Use C++ 17
