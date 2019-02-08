@@ -33,6 +33,8 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::captureBtn_clicked() {
     fs.saveImage(getCurrentImage());
+
+    // TODO: Show capturing effect
 }
 
 void MainWindow::recordBtn_clicked() {
