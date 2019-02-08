@@ -57,6 +57,11 @@ add_executable(${PROJECT_NAME}
     "src/gui/framelesswindow/framelesswindow.ui"
 )
 
+ADD_LIBRARY(
+    ${PROJECTNAME} STATIC
+    ${HEADER_FILES}
+)
+
 # Use C++ 17
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
