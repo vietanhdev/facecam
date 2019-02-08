@@ -7,6 +7,7 @@
 #include <ctime>
 #include <sstream>
 #include <chrono>
+#include <cstdlib>
 
 namespace ml_cam {
 

@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
             SLOT(captureBtn_clicked()));
     connect(ui->recordBtn, SIGNAL(released()), this, SLOT(recordBtn_clicked()));
     connect(ui->infoBtn, SIGNAL(released()), this, SLOT(showAboutBox()));
+    connect(ui->openLibraryBtn, SIGNAL(released()), this, SLOT(openLibraryBtn_clicked()));
+    
 
     // Option selector events
     connect(ui->faceDetectorSelector, SIGNAL(activated(int)), this,
@@ -36,6 +38,11 @@ void MainWindow::captureBtn_clicked() {
 void MainWindow::recordBtn_clicked() {
     QMessageBox::critical(this, "NOT IMPLEMENTED",
                           "This function hasn't been implemented");
+}
+
+void MainWindow::openLibraryBtn_clicked() {
+    std::string command = std::string("./qimgv ") + fs.getPhotoPath().string();
+    std::system(command.c_str());
 }
 
 void MainWindow::faceDetectorSelector_activated() {

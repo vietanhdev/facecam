@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 # Specify project title
 project(ml-cam)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -95,3 +97,4 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 
 
 add_subdirectory(qimgv)
+
