@@ -135,4 +135,4 @@ cmake -G "Visual Studio 15 2017 Win64" ..
 
 - In this project, we use code from:
     + Dark Theme for Qt5 by Juergen Skrotzky: [https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle](https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle).
-    + Code to generate time string from: [https://stackoverflow.com/questions/15957805/extract-year-month-day-etc-from-stdchronotime-point-in-c](https://stackoverflow.com/questions/15957805/extract-year-month-day-etc-from-stdchronotime-point-in-c).
+    + Image viewer from [https://github.com/easymodo/qimgv](https://github.com/easymodo/qimgv).
