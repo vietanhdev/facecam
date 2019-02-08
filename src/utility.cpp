@@ -1,6 +1,50 @@
 #include "utility.h"
+#include <stdlib.h>
 
 namespace ml_cam {
+
+
+	// Define Microsoft functions and data types to use in other platform
+	#if !defined(_WIN32)
+		typedef int errno_t;
+
+		//https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/dupenv-s-wdupenv-s?view=vs-2017
+		error_t _dupenv_s(char ** pValue, size_t * len, const char * pPath) {
+
+			char* value;
+  			value = getenv (pPath);
+
+			if (pPath != NULL) {
+				*len = strlen(value);
+
+				char *buf = (char*) malloc((*len + 1) * sizeof(char));
+				// Check memory allocation
+				if (buf == NULL) { // Not enough memory
+					return ENOMEM;
+				}
+
+				strncpy(*pValue, buf, *len);
+				buf[*len] = '\0';
+				*pValue = buf;
+			} else {
+
+				char *buf = (char*) malloc(sizeof(char));
+				// Check memory allocation
+				if (buf == NULL) { // Not enough memory
+					return ENOMEM;
+				}
+
+				buf[0] = '\0';
+				*pValue = buf;
+				*len = 0;
+			}
+
+			return EINVAL;
+		}
+	#endif // _WIN32
+	
+
+
 
 	void setLabel(cv::Mat& im, const std::string label, const cv::Point & origin)
 	{
