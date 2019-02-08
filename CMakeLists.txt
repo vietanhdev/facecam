@@ -25,6 +25,17 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 # Take care of Qt dependencies
 find_package(Qt5 COMPONENTS Core Gui Widgets Test Concurrent REQUIRED)
 
+# The Qt5Widgets_INCLUDES also includes the include directories for
+# dependencies QtCore and QtGui
+include_directories(${Qt5Widgets_INCLUDES})
+
+# We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
+add_definitions(${Qt5Widgets_DEFINITIONS})
+
+# Executables fail to build with Qt 5 in the default configuration
+# without -fPIE. We add that here.
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+
 include_directories(
     "src"
     "src/effects"
@@ -37,6 +48,7 @@ include_directories(
 add_executable(${PROJECT_NAME} 
     "src/main.cpp"
     "src/utility.cpp"
+    "src/file_storage.cpp"
     "src/gui/mainwindow.cpp"
     "src/gui/mainwindow.ui"
     "src/landmark_result.cpp"
@@ -70,7 +82,7 @@ if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
 endif()
 
 # link required libs
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets ${OpenCV_LIBS} ${CPP_FS_LIB})
+target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${OpenCV_LIBS} ${CPP_FS_LIB})
 
 # Copy files
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
