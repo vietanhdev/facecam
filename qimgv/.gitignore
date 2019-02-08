@@ -1,0 +1,17 @@
+.kdev4/
+*.txt
+!CMakeLists.txt
+#build*
+.kdev_include_paths
+*.xmi
+*.kdev*
+.dir*
+*.orig
+
+debug/
+release/
+*.debug
+*.release
+*.user
+ui_settingsdialog.h
+Makefile
