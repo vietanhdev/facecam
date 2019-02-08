@@ -5,10 +5,15 @@
 #include "framelesswindow.h"
 #include "DarkStyle.h"
 #include "mainwindow.h"
+#include "file_storage.h"
 
-int main(int argc, char *argv[])
-{
+
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+
+    // Init file storage
+    ml_cam::FileStorage fs;
+    fs.initStorage();
 
     // style our application with custom dark style
     a.setStyle(new DarkStyle);

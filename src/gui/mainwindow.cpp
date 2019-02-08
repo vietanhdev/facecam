@@ -68,8 +68,7 @@ void MainWindow::showAboutBox() {
                        "Icons made by:\n"
                        "\t- https://www.flaticon.com/authors/smashicons\n"
                        "\t- https://www.flaticon.com/authors/roundicons\n"
-                       "\t- https://www.freepik.com/\n"
-                       );
+                       "\t- https://www.freepik.com/\n");
 }
 
 void MainWindow::showCam() {
@@ -108,8 +107,9 @@ void MainWindow::showCam() {
             }
 
             // Show current image to users
-            QImage qimg(frame.data, static_cast<int>(frame.cols), static_cast<int>(frame.rows), static_cast<int>(frame.step),
-                        QImage::Format_RGB888);
+            QImage qimg(frame.data, static_cast<int>(frame.cols),
+                        static_cast<int>(frame.rows),
+                        static_cast<int>(frame.step), QImage::Format_RGB888);
             pixmap.setPixmap(QPixmap::fromImage(qimg.rgbSwapped()));
             ui->graphicsView->fitInView(&pixmap, Qt::KeepAspectRatio);
         }
@@ -127,7 +127,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 // Load face detectors
 void MainWindow::loadFaceDetectors() {
-    
     // SSD - ResNet10 detector
     face_detectors.push_back(
         std::shared_ptr<FaceDetector>(new FaceDetectorSSDResNet10()));
@@ -139,7 +138,7 @@ void MainWindow::loadFaceDetectors() {
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_detectors.size(); ++i) {
         ui->faceDetectorSelector->addItem(
-			QString::fromUtf8(face_detectors[i]->getDetectorName().c_str()),
+            QString::fromUtf8(face_detectors[i]->getDetectorName().c_str()),
             QVariant(static_cast<int>(i)));
     }
     // Add None option
@@ -149,14 +148,12 @@ void MainWindow::loadFaceDetectors() {
 }
 
 void MainWindow::loadEffects() {
-
     // Effect: Debug
     image_effects.push_back(
         std::shared_ptr<ImageEffect>(new EffectDebugInfo()));
 
     // Effect: Raining Cloud
-    image_effects.push_back(
-        std::shared_ptr<ImageEffect>(new EffectCloud()));
+    image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectCloud()));
 
     // Add "No Effect"
     QListWidgetItem *new_effect = new QListWidgetItem(
@@ -165,20 +162,22 @@ void MainWindow::loadEffects() {
     ui->effectList->addItem(new_effect);
 
     for (size_t i = 0; i < image_effects.size(); ++i) {
-		std::string effect_name = image_effects[i]->getName();
-		QString effect_name_qs = QString::fromUtf8(effect_name.c_str());
+        std::string effect_name = image_effects[i]->getName();
+        QString effect_name_qs = QString::fromUtf8(effect_name.c_str());
         QListWidgetItem *new_effect = new QListWidgetItem(
             QIcon(QPixmap::fromImage(Mat2QImage(image_effects[i]->getIcon()))),
-			effect_name_qs);
+            effect_name_qs);
         new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(i)));
         ui->effectList->addItem(new_effect);
     }
 }
 
 QImage MainWindow::Mat2QImage(cv::Mat const &src) {
-    cv::Mat temp;                     // make the same cv::Mat
-    cvtColor(src, temp, cv::COLOR_BGR2RGB);  // cvtColor Makes a copt, that what i need
-    QImage dest((const uchar *)temp.data, static_cast<int>(temp.cols), static_cast<int>(temp.rows), static_cast<int>(temp.step),
+    cv::Mat temp;  // make the same cv::Mat
+    cvtColor(src, temp,
+             cv::COLOR_BGR2RGB);  // cvtColor Makes a copt, that what i need
+    QImage dest((const uchar *)temp.data, static_cast<int>(temp.cols),
+                static_cast<int>(temp.rows), static_cast<int>(temp.step),
                 QImage::Format_RGB888);
     dest.bits();  // enforce deep copy, see documentation
     // of QImage::QImage ( const uchar * data, int width, int height, Format

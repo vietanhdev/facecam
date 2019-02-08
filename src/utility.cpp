@@ -1,5 +1,6 @@
 #include "utility.h"
 #include <stdlib.h>
+#include <iostream>
 
 namespace ml_cam {
 
@@ -14,7 +15,7 @@ namespace ml_cam {
 			char* value;
   			value = getenv (pPath);
 
-			if (pPath != NULL) {
+			if (value != NULL) {
 				*len = strlen(value);
 
 				char *buf = (char*) malloc((*len + 1) * sizeof(char));
@@ -23,23 +24,15 @@ namespace ml_cam {
 					return ENOMEM;
 				}
 
-				strncpy(*pValue, buf, *len);
+				strncpy(buf, value, *len);
 				buf[*len] = '\0';
 				*pValue = buf;
 			} else {
 
-				char *buf = (char*) malloc(sizeof(char));
-				// Check memory allocation
-				if (buf == NULL) { // Not enough memory
-					return ENOMEM;
-				}
-
-				buf[0] = '\0';
-				*pValue = buf;
-				*len = 0;
+				return EINVAL;
 			}
 
-			return EINVAL;
+			return 0;
 		}
 	#endif // _WIN32
 	
