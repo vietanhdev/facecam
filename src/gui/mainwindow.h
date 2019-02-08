@@ -10,6 +10,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 
+#include <mutex>
 #include <memory>
 #include "opencv2/opencv.hpp"
 
@@ -19,6 +20,8 @@
 #include "image_effect.h"
 #include "effect_debug_info.h"
 #include "effect_cloud.h"
+
+#include "file_storage.h"
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +50,16 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    // Current image
+    // When user click "Capture", we take photo here then have it
+    // to [Photos] folder
+    cv::Mat current_img;
+    std::mutex current_img_mutex;
+
+    // File Storage
+    ml_cam::FileStorage fs;
+
+
     QGraphicsPixmapItem pixmap;
     cv::VideoCapture video;
 
@@ -60,10 +73,8 @@ private:
 
 public:
     void loadFaceDetectors();
-
-    QImage Mat2QImage(cv::Mat const& src);
-    cv::Mat QImage2Mat(QImage const& src);
-
+    void setCurrentImage(const cv::Mat & img);
+    cv::Mat getCurrentImage();
 };
 
 #endif // MAINWINDOW_H

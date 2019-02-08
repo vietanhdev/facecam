@@ -30,8 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::captureBtn_clicked() {
-    QMessageBox::critical(this, "NOT IMPLEMENTED",
-                          "This function hasn't been implemented");
+    fs.saveImage(getCurrentImage());
 }
 
 void MainWindow::recordBtn_clicked() {
@@ -74,7 +73,7 @@ void MainWindow::showAboutBox() {
 void MainWindow::showCam() {
     using namespace cv;
 
-    // TODO Guess camera index
+    // TODO Guess or let user setup camera index
     int cameraIndex = 0;
 
     if (!video.open(cameraIndex)) {
@@ -105,6 +104,8 @@ void MainWindow::showCam() {
                                                                      landmarks);
                 }
             }
+
+            setCurrentImage(frame);
 
             // Show current image to users
             QImage qimg(frame.data, static_cast<int>(frame.cols),
@@ -165,31 +166,20 @@ void MainWindow::loadEffects() {
         std::string effect_name = image_effects[i]->getName();
         QString effect_name_qs = QString::fromUtf8(effect_name.c_str());
         QListWidgetItem *new_effect = new QListWidgetItem(
-            QIcon(QPixmap::fromImage(Mat2QImage(image_effects[i]->getIcon()))),
+            QIcon(QPixmap::fromImage(ml_cam::Mat2QImage(image_effects[i]->getIcon()))),
             effect_name_qs);
         new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(i)));
         ui->effectList->addItem(new_effect);
     }
 }
 
-QImage MainWindow::Mat2QImage(cv::Mat const &src) {
-    cv::Mat temp;  // make the same cv::Mat
-    cvtColor(src, temp,
-             cv::COLOR_BGR2RGB);  // cvtColor Makes a copt, that what i need
-    QImage dest((const uchar *)temp.data, static_cast<int>(temp.cols),
-                static_cast<int>(temp.rows), static_cast<int>(temp.step),
-                QImage::Format_RGB888);
-    dest.bits();  // enforce deep copy, see documentation
-    // of QImage::QImage ( const uchar * data, int width, int height, Format
-    // format )
-    return dest;
+
+void MainWindow::setCurrentImage(const cv::Mat & img) {
+    std::lock_guard<std::mutex> guard(current_img_mutex);
+    current_img = img.clone();
 }
 
-cv::Mat MainWindow::QImage2Mat(QImage const &src) {
-    cv::Mat tmp(src.height(), src.width(), CV_8UC3, (uchar *)src.bits(),
-                src.bytesPerLine());
-    cv::Mat
-        result;  // deep copy just in case (my lack of knowledge with open cv)
-    cvtColor(tmp, result, cv::COLOR_BGR2RGB);
-    return result;
+cv::Mat MainWindow::getCurrentImage() {
+    std::lock_guard<std::mutex> guard(current_img_mutex);
+    return current_img.clone();
 }
