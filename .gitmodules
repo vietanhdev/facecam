@@ -1,0 +1,3 @@
+[submodule "qimgv"]
+	path = qimgv
+	url = https://github.com/vietanhdev/qimgv
