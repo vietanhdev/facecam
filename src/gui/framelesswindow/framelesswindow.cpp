@@ -194,7 +194,10 @@ void FramelessWindow::on_minimizeButton_clicked() {
   setWindowState(Qt::WindowMinimized);
 }
 
-void FramelessWindow::on_closeButton_clicked() { close(); }
+void FramelessWindow::on_closeButton_clicked() {
+  close();
+  exit(0);
+}
 
 void FramelessWindow::on_windowTitlebar_doubleClicked() {
   if (windowState().testFlag(Qt::WindowNoState)) {
