@@ -15,18 +15,18 @@ int main(int argc, char *argv[]) {
     ml_cam::FileStorage fs;
     fs.initStorage();
 
-    // style our application with custom dark style
+    // Style our application with custom dark style
     a.setStyle(new DarkStyle);
 
-    // create frameless window (and set windowState or title)
+    // Create frameless window (and set windowState or title)
     FramelessWindow framelessWindow;
     framelessWindow.setWindowTitle("mLearning Cam");
     framelessWindow.setWindowIcon(a.style()->standardIcon(QStyle::SP_DesktopIcon));
     
-    // create our mainwindow instance
+    // Create our mainwindow instance
     MainWindow *mainWindow = new MainWindow;
 
-    // add the mainwindow to our custom frameless window
+    // Add the mainwindow to our custom frameless window
     framelessWindow.setContent(mainWindow);
     framelessWindow.show();
     mainWindow->showCam();
