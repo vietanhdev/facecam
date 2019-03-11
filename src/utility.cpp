@@ -54,14 +54,14 @@ std::string getHomePath() {
     errno_t err = _dupenv_s(&pValue, &len, "HOME");
     errno_t err2;
 
-    if (!err) {
+    if (!err && pValue != NULL) {
         std::string pValueStdStr = pValue;
         free(pValue);
         return pValueStdStr;
     } else {
         err = _dupenv_s(&pValue, &len, "USERPROFILE");
 
-        if (!err) {
+        if (!err && pValue != NULL) {
             std::string pValueStdStr = pValue;
             free(pValue);
             return pValueStdStr;
@@ -69,7 +69,7 @@ std::string getHomePath() {
             err = _dupenv_s(&pValue, &len, "HOMEDRIVE");
             err2 = _dupenv_s(&pValue2, &len, "HOMEPATH");
 
-            if (!err && !err2) {
+            if (!err && !err2 && pValue != NULL && pValue2 != NULL) {
                 std::string pValueStdStr = std::string(pValue) + pValue2;
                 return pValueStdStr;
             }
