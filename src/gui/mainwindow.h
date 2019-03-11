@@ -9,8 +9,8 @@
 #include <QPixmap>
 #include <QCloseEvent>
 #include <QMessageBox>
-#include <QtMultimedia/QAudio>
-#include <QtMultimedia/QMediaPlayer>
+
+#include <SDL.h>
 
 #include <mutex>
 #include <memory>
@@ -24,6 +24,7 @@
 #include "effect_cloud.h"
 
 #include "file_storage.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -78,6 +79,7 @@ public:
     void loadFaceDetectors();
     void setCurrentImage(const cv::Mat & img);
     cv::Mat getCurrentImage();
+    void playShutter();
 };
 
 #endif // MAINWINDOW_H

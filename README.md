@@ -48,6 +48,11 @@ sudo /sbin/ldconfig -v
 https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/
 ```
 
+- Install SDL lib
+```
+sudo apt-get install libsdl2-dev
+```
+
 #### Compile and Run
 
 - Compile
@@ -88,6 +93,8 @@ make
 
 - Compile and install OpenCV 4
     + Add OPENCV_DIR=C:\OpenCV\x64\vc15\staticlib
+
+- Install SDL Lib and add it to PATH
 
 - **Restart the computer**.
 

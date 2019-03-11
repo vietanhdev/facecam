@@ -4,6 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    
 
     ui->graphicsView->setScene(new QGraphicsScene(this));
     ui->graphicsView->scene()->addItem(&pixmap);
@@ -27,9 +28,34 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Load Detectors
     loadFaceDetectors();
+
+    // Init Audio
+    SDL_Init(SDL_INIT_AUDIO);
 }
 
 MainWindow::~MainWindow() { delete ui; }
+
+void MainWindow::playShutter() {
+    SDL_AudioSpec wavSpec;
+	Uint32 wavLength;
+	Uint8 *wavBuffer;
+
+	SDL_LoadWAV("sounds/shutter-fast.wav", &wavSpec, &wavBuffer, &wavLength);
+	
+	// open audio device
+	SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+
+	// play audio
+	int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+	SDL_PauseAudioDevice(deviceId, 0);
+
+	// keep window open enough to hear the sound
+	SDL_Delay(200);
+
+	// clean up
+	SDL_CloseAudioDevice(deviceId);
+	SDL_FreeWAV(wavBuffer);
+}
 
 void MainWindow::captureBtn_clicked() {
     fs.saveImage(getCurrentImage());
@@ -38,11 +64,7 @@ void MainWindow::captureBtn_clicked() {
     cv::Mat current_img = getCurrentImage();
 
     // Play sound file
-    // QSound::play("sounds/shutter-fast.wav");
-    auto player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile("sounds/shutter-fast.wav"));
-    player->setVolume(50);
-    player->play();
+    playShutter();
 
     // Create icon by cropping
     int width = current_img.cols;
