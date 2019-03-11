@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
             SLOT(captureBtn_clicked()));
     connect(ui->recordBtn, SIGNAL(released()), this, SLOT(recordBtn_clicked()));
     connect(ui->infoBtn, SIGNAL(released()), this, SLOT(showAboutBox()));
-    connect(ui->openLibraryBtn, SIGNAL(released()), this, SLOT(openLibraryBtn_clicked()));
-    
+    connect(ui->openLibraryBtn, SIGNAL(released()), this,
+            SLOT(openLibraryBtn_clicked()));
 
     // Option selector events
     connect(ui->faceDetectorSelector, SIGNAL(activated(int)), this,
@@ -34,7 +34,42 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::captureBtn_clicked() {
     fs.saveImage(getCurrentImage());
 
-    // TODO: Show capturing effect
+    // *** Update icon of library to current image
+    cv::Mat current_img = getCurrentImage();
+
+    // Play sound file
+    // QSound::play("sounds/shutter-fast.wav");
+    auto player = new QMediaPlayer;
+    player->setMedia(QUrl::fromLocalFile("sounds/shutter-fast.wav"));
+    player->setVolume(50);
+    player->play();
+
+    // Create icon by cropping
+    int width = current_img.cols;
+    int height = current_img.rows;
+    int padding_x = 0, padding_y = 0;
+    int crop_size;
+    if (width <= height) {
+        crop_size = width;
+        padding_y = (height - width) / 2;
+    } else {
+        crop_size = height;
+        padding_x = (width - height) / 2;
+    }
+
+    cv::Mat crop =
+        current_img(cv::Rect(padding_x, padding_y, crop_size, crop_size));
+    cv::cvtColor(crop, crop, cv::COLOR_BGR2RGB);
+
+    cv::Mat white_bg(50, 50, CV_8UC3, cv::Scalar(255, 255, 255));
+
+    // Set icon for library
+    QImage btn_icon = QImage((uchar *)crop.data, crop.cols, crop.rows, crop.step,
+                            QImage::Format_RGB888);
+    QImage btn_white_icon = QImage((uchar *)crop.data, crop.cols, crop.rows, crop.step,
+                            QImage::Format_RGB888);
+    ui->openLibraryBtn->setIcon(QIcon(QPixmap::fromImage(btn_white_icon)));
+    ui->openLibraryBtn->setIcon(QIcon(QPixmap::fromImage(btn_icon)));
 }
 
 void MainWindow::recordBtn_clicked() {
@@ -43,7 +78,14 @@ void MainWindow::recordBtn_clicked() {
 }
 
 void MainWindow::openLibraryBtn_clicked() {
-    std::string command = std::string("./qimgv ") + fs.getPhotoPath().string();
+    std::string command;
+
+#if defined(_WIN32)
+    command = std::string("explorer ") + (fs.getPhotoPath() / fs.getLastSavedItem()).string();
+#else
+    command = std::string("./qimgv ") + (fs.getPhotoPath() / fs.getLastSavedItem()).string();
+#endif
+
     std::system(command.c_str());
 }
 
@@ -175,15 +217,15 @@ void MainWindow::loadEffects() {
         std::string effect_name = image_effects[i]->getName();
         QString effect_name_qs = QString::fromUtf8(effect_name.c_str());
         QListWidgetItem *new_effect = new QListWidgetItem(
-            QIcon(QPixmap::fromImage(ml_cam::Mat2QImage(image_effects[i]->getIcon()))),
+            QIcon(QPixmap::fromImage(
+                ml_cam::Mat2QImage(image_effects[i]->getIcon()))),
             effect_name_qs);
         new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(i)));
         ui->effectList->addItem(new_effect);
     }
 }
 
-
-void MainWindow::setCurrentImage(const cv::Mat & img) {
+void MainWindow::setCurrentImage(const cv::Mat &img) {
     std::lock_guard<std::mutex> guard(current_img_mutex);
     current_img = img.clone();
 }

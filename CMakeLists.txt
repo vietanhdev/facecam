@@ -25,11 +25,11 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Take care of Qt dependencies
-find_package(Qt5 COMPONENTS Core Gui Widgets Test Concurrent REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets Test Concurrent Multimedia REQUIRED)
 
 # The Qt5Widgets_INCLUDES also includes the include directories for
 # dependencies QtCore and QtGui
-include_directories(${Qt5Widgets_INCLUDES})
+include_directories(${Qt5Widgets_INCLUDES} ${Qt5Multimedia_INCLUDES})
 
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
 add_definitions(${Qt5Widgets_DEFINITIONS})
@@ -84,7 +84,7 @@ if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
 endif()
 
 # link required libs
-target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${OpenCV_LIBS} ${CPP_FS_LIB})
+target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${Qt5Multimedia_LIBRARIES} ${OpenCV_LIBS} ${CPP_FS_LIB})
 
 # Copy files
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -95,6 +95,14 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/models $<TARGET_FILE_DIR:${PROJECT_NAME}>/models)
 
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/sounds $<TARGET_FILE_DIR:${PROJECT_NAME}>/sounds)
 
-add_subdirectory(qimgv)
+
+
+# Compile qimgv if not in Windows
+if (NOT WIN32)
+    add_subdirectory(qimgv)
+endif (NOT WIN32)
 

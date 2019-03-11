@@ -9,6 +9,8 @@
 #include <QPixmap>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QtMultimedia/QAudio>
+#include <QtMultimedia/QMediaPlayer>
 
 #include <mutex>
 #include <memory>
