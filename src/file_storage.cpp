@@ -79,9 +79,18 @@ bool FileStorage::saveImage(const cv::Mat& img) {
     << "." << millis << ".png";
 
     fs::path filepath = getPhotoPath() / fs::path(filename.str());
+    setLastSavedItem(fs::path(filename.str()));
 
     // *** Save image to file
     cv::imwrite(filepath.string(), img);
 
     return true;
+}
+
+
+fs::path FileStorage::getLastSavedItem() {
+    return last_saved_item;
+}
+void FileStorage::setLastSavedItem(fs::path path) {
+    last_saved_item = path;
 }

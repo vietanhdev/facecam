@@ -20,6 +20,8 @@ class FileStorage {
     fs::path PHOTO_FOLDER;
     fs::path VIDEO_FOLDER;
 
+    fs::path last_saved_item;
+
    public:
     FileStorage();
     ~FileStorage();
@@ -28,6 +30,9 @@ class FileStorage {
     fs::path getPhotoPath();
     fs::path getVideoPath();
     void initStorage();
+
+    fs::path getLastSavedItem();
+    void setLastSavedItem(fs::path);
 
     bool saveImage(const cv::Mat & img);
 };
