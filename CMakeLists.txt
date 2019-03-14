@@ -63,6 +63,7 @@ add_executable(${PROJECT_NAME}
     "src/effects/image_effect.cpp"
     "src/effects/effect_debug_info.cpp"
     "src/effects/effect_cloud.cpp"
+    "src/effects/effect_rabbit_ears.cpp"
     "src/timer.cpp"
     "src/effects/animation.cpp"
     "resources.qrc"

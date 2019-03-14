@@ -25,6 +25,9 @@ class Animation {
 	// Apply animation into image at position cv::Rect rect
 	void apply(cv::Mat & draw, cv::Rect rect);
 
+    // Apply animation into image at position cv::Rect rect
+    void applyHat(cv::Mat& draw, cv::Rect rect);
+
 };
 
 

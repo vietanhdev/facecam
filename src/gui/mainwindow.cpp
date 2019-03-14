@@ -140,6 +140,7 @@ void MainWindow::showAboutBox() {
                        "Icons made by:\n"
                        "\t- https://www.flaticon.com/authors/smashicons\n"
                        "\t- https://www.flaticon.com/authors/roundicons\n"
+                       "\t- https://www.freepik.com/free-vector/bunny-ears-nose-carnival-mask-photo_4015599.htm\n"
                        "\t- https://www.freepik.com/\n");
 }
 
@@ -228,6 +229,9 @@ void MainWindow::loadEffects() {
 
     // Effect: Raining Cloud
     image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectCloud()));
+
+    // Effect: Rabbit Ears
+    image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectRabbitEars()));
 
     // Add "No Effect"
     QListWidgetItem *new_effect = new QListWidgetItem(
