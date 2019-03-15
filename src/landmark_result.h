@@ -26,7 +26,16 @@ public:
     LandMarkResult(/* args */);
     ~LandMarkResult();
 
-    cv::Rect getFaceRect();
+    // Copy assignment, copy-and-swap form
+    LandMarkResult& operator=(LandMarkResult other)
+    {
+        face_rect = other.face_rect;
+        face_rect_confidence = other.face_rect_confidence;
+        landmark = other.landmark;
+        return *this;
+    }
+
+    cv::Rect getFaceRect() const;
     float getFaceRectConfidence();
     void setFaceRect(const cv::Rect & face);
     void setFaceRect(const cv::Rect & face_rect, float confidence);

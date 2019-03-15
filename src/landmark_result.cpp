@@ -17,7 +17,7 @@ void LandMarkResult::setFaceRect(const cv::Rect & face_rect, float confidence) {
     face_rect_confidence = confidence;
 }
 
-cv::Rect LandMarkResult::getFaceRect() {
+cv::Rect LandMarkResult::getFaceRect() const {
     return face_rect;
 }
 

@@ -171,6 +171,7 @@ void MainWindow::showCam() {
     while (video.isOpened()) {
         video >> frame;
         if (!frame.empty()) {
+
             // Detect Faces
             std::vector<LandMarkResult> faces;
             if (current_face_detector_index >= 0) {
@@ -183,6 +184,14 @@ void MainWindow::showCam() {
                 faces.clear();
             }
 
+            // Sort faces ascending by size  => Draw face filters for smaller faces behind those for bigger faces
+            std::sort(std::begin(faces), std::end(faces),
+                    [] (const auto& lhs, const auto& rhs) {
+                return lhs.getFaceRect().area() < rhs.getFaceRect().area();
+            });
+
+
+            // Apply effects / filters
             for (size_t i = 0; i < selected_effect_indices.size(); ++i) {
                 if (selected_effect_indices[i] >= 0) {
                     image_effects[selected_effect_indices[i]]->apply(frame,
@@ -192,7 +201,7 @@ void MainWindow::showCam() {
 
             setCurrentImage(frame);
 
-            // Show current image to users
+            // ### Show current image
             QImage qimg(frame.data, static_cast<int>(frame.cols),
                         static_cast<int>(frame.rows),
                         static_cast<int>(frame.step), QImage::Format_RGB888);

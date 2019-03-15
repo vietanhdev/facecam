@@ -12,6 +12,7 @@
 
 #include <SDL.h>
 
+#include <algorithm>
 #include <mutex>
 #include <memory>
 #include "opencv2/opencv.hpp"
