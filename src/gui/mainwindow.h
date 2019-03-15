@@ -24,6 +24,8 @@
 #include "effect_cloud.h"
 #include "effect_rabbit_ears.h"
 #include "effect_feather_hat.h"
+#include "effect_tiger.h"
+#include "effect_pink_glasses.h"
 
 #include "file_storage.h"
 

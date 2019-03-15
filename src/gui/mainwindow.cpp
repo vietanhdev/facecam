@@ -230,8 +230,14 @@ void MainWindow::loadEffects() {
     // Effect: Raining Cloud
     image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectCloud()));
 
+    // Effect: Pink Glasses
+    image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectPinkGlasses()));
+
     // Effect: Rabbit Ears
     image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectRabbitEars()));
+
+    // Effect: Tiger
+    image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectTiger()));
 
     // Effect: Feather Hat
     image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectFeatherHat()));

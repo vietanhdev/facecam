@@ -15,7 +15,14 @@ void EffectRabbitEars::apply(cv::Mat & draw, std::vector<LandMarkResult> & landm
     // *** Draw cloud animation
     for (size_t i = 0; i < landmarks.size(); ++i) {
         cv::Rect face = landmarks[i].getFaceRect();
-        rabbit_ears_animation.applyHat(draw, face);
+
+        // Calculate the position of animation
+        int animation_width = face.width * 3;
+
+        int left = face.tl().x - (animation_width - face.width) / 2;
+        int bottom = face.tl().y + animation_width * 0.16;
+
+        rabbit_ears_animation.apply(draw, animation_width, left, bottom); 
     }
 
 }
