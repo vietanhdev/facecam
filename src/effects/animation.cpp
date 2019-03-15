@@ -48,6 +48,75 @@ void Animation::setFPS(float fps) {
     }
 }
 
+
+// Overlay image to another image
+void Animation::overlayImage(cv::Mat & draw, cv::Mat & overlay, int x, int bottom_y) {
+   
+    // Calculate the position of overlay
+    int y2 = bottom_y;
+    int x1 = x;
+    int y1 = y2 - overlay.rows;
+    int x2 = x1 + overlay.cols;
+    
+    cv::Rect overlay_crop_window(0, 0, overlay.cols, overlay.rows);
+    std::cout << overlay_crop_window << std::endl;
+
+    // The left edge of overlay goes over the image boundary
+    if (x1 < 0) {
+        int x_increment = -x1;
+        overlay_crop_window.x += x_increment;
+        overlay_crop_window.width -= x_increment;
+        x1 = 0;
+    }
+
+    // The top edge of overlay goes over the image boundary
+    if (y1 < 0) {
+        int y_increment = -y1;
+        overlay_crop_window.y += y_increment;
+        overlay_crop_window.height -= y_increment;
+        y1 = 0;
+    }
+
+    // The right edge of overlay goes over the image boundary
+    if (x2 >= draw.cols) {
+        overlay_crop_window.width -= x2 - draw.cols + 1;
+        x2 = draw.cols - 1;
+    }
+
+    // The bottom edge of overlay goes over the image boundary
+    if (y2 >= draw.rows) {
+        overlay_crop_window.height -= y2 - draw.rows + 1;
+        y2 = draw.rows - 1;
+    }
+
+    cv::Point tl(x1, y1);
+    cv::Point br(x2, y2);
+    cv::Rect overlay_pos(tl, br);
+
+    std::cout << overlay_crop_window << std::endl;
+
+    cv::Mat crop_overlay = overlay(overlay_crop_window);
+
+    // Merge overlay into image
+    cv::Mat roi = draw(overlay_pos);  // Image of background image
+    cv::Mat mask;
+    cv::Mat mask_inv;
+    cv::Mat crop_overlay_gray;
+    cv::cvtColor(crop_overlay, crop_overlay_gray, cv::COLOR_BGR2GRAY);
+    cv::threshold(crop_overlay_gray, mask, 1, 255, cv::THRESH_BINARY);
+    cv::bitwise_not(mask, mask_inv);
+
+    cv::Mat background, foreground;
+    cv::bitwise_and(roi, roi, background, mask_inv);
+    cv::bitwise_and(crop_overlay, crop_overlay, foreground, mask);
+
+    cv::Mat merged;
+    cv::add(background, foreground, merged);
+
+    merged.copyTo(roi);
+
+}
+
 // Apply animation into image at position cv::Rect rect
 void Animation::apply(cv::Mat& draw, cv::Rect rect) {
     const cv::Mat& animation = getFrame();
@@ -59,35 +128,11 @@ void Animation::apply(cv::Mat& draw, cv::Rect rect) {
     cv::resize(animation, scaled_animation, cv::Size(), scale_factor, scale_factor);
 
     // Calculate the position of animation
-    int x1 = rect.tl().x;
-    int y1 = rect.tl().y - rect.height / 5 - scaled_animation.rows;
-    int x2 = x1 + scaled_animation.cols;
-    int y2 = y1 + scaled_animation.rows;
-    cv::Point tl(x1, y1);
-    cv::Point br(x2, y2);
-    cv::Rect animation_pos(tl, br);
+    int x = rect.tl().x;
+    int bottom_y = rect.tl().y - rect.height / 5;
 
-    if (x1 < 0 || y1 < 0 || x2 >= draw.cols || y2 >= draw.rows) {
-        return;
-    }
-
-    // Merge animation into image
-    cv::Mat roi = draw(animation_pos);  // Image of background image
-    cv::Mat mask;
-    cv::Mat mask_inv;
-    cv::Mat scaled_animation_gray;
-    cv::cvtColor(scaled_animation, scaled_animation_gray, cv::COLOR_BGR2GRAY);
-    cv::threshold(scaled_animation_gray, mask, 1, 255, cv::THRESH_BINARY);
-    cv::bitwise_not(mask, mask_inv);
-
-    cv::Mat background, foreground;
-    cv::bitwise_and(roi, roi, background, mask_inv);
-    cv::bitwise_and(scaled_animation, scaled_animation, foreground, mask);
-
-    cv::Mat merged;
-    cv::add(background, foreground, merged);
-
-    merged.copyTo(roi);
+    overlayImage(draw, scaled_animation, x, bottom_y);
+    
 }
 
 

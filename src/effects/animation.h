@@ -28,6 +28,9 @@ class Animation {
     // Apply animation into image at position cv::Rect rect
     void applyHat(cv::Mat& draw, cv::Rect rect);
 
+    // Overlay image to another image
+    void overlayImage(cv::Mat & draw, cv::Mat & overlay, int x, int bottom_y);
+
 };
 
 
