@@ -2,7 +2,7 @@
 #include "effect_feather_hat.h"
 
 EffectFeatherHat::EffectFeatherHat()
-    : ImageEffect("Rabbit Ears", "images/effects/feather_hat/icon.png") {
+    : ImageEffect("Feather Hat", "images/effects/feather_hat/icon.png") {
 
     feather_hat_animation.setFPS(0);
     feather_hat_animation.addFrame("images/effects/feather_hat/feather_hat.png");
