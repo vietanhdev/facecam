@@ -6,6 +6,9 @@ This application is built to try face detection and alignment algorithms in an i
 
 **Supported Operating Systems:** Currently, we only support Windows and Ubuntu operation system. However, you can also try to build it for other linux distribution and macOS.
 
+**Screenshot:**
+
+![Screenshot](screenshots/screenshot1.png)
 
 ## I. DEVELOPMENT ENVIRONMENT AND BUILD
 
