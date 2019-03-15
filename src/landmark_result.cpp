@@ -34,6 +34,11 @@ void LandMarkResult::setFaceLandmark(std::vector<cv::Point2f> & landmark){
 }
 
 
+bool LandMarkResult::haveLandmark() {
+    return !landmark.empty();
+}
+
+
 std::vector<cv::Point2f> LandMarkResult::getMouth() {
     if (landmark.empty()) return landmark;
     std::vector<cv::Point2f> sub_landmark(&landmark[MOUTH_IDX[0]], &landmark[MOUTH_IDX[1]]);

@@ -97,9 +97,27 @@ void Animation::overlayImage(const cv::Mat& background, const cv::Mat& foregroun
 }
 
 
+cv::Mat Animation::rotateImage(const cv::Mat & img, double angle) {
+
+    // Get rotation matrix for rotating the image around its center in pixel coordinates
+    cv::Point2f center((img.cols-1) / 2.0, (img.rows-1) / 2.0);
+    cv::Mat rot = cv::getRotationMatrix2D(center, angle, 1.0);
+
+    // Determine bounding rectangle, center not relevant
+    cv::Rect2f bbox = cv::RotatedRect(cv::Point2f(), img.size(), angle).boundingRect2f();
+
+    // Adjust transformation matrix
+    rot.at<double>(0,2) += bbox.width/2.0 - img.cols/2.0;
+    rot.at<double>(1,2) += bbox.height/2.0 - img.rows/2.0;
+
+    cv::Mat dst;
+    cv::warpAffine(img, dst, rot, bbox.size());
+    return dst;
+}
+
 // Apply animation into image at position cv::Rect rect
 void Animation::apply(cv::Mat& draw, int animation_width, int left,
-                      int bottom) {
+                      int bottom, double angle)  {
     const cv::Mat& animation = getFrame();
 
     float scale_factor = static_cast<float>(animation_width) / animation.cols;
@@ -108,6 +126,11 @@ void Animation::apply(cv::Mat& draw, int animation_width, int left,
     cv::Mat scaled_animation;
     cv::resize(animation, scaled_animation, cv::Size(), scale_factor,
                scale_factor);
+
+    // Rotate
+    if (angle) {
+        scaled_animation = rotateImage(scaled_animation, angle);
+    }
 
     // overlayImage(draw, scaled_animation, left, bottom);
     cv::Mat result;

@@ -27,8 +27,10 @@ class Animation {
     void overlayImage(const cv::Mat& background, const cv::Mat& foreground,
                   cv::Mat& output, cv::Point2i location);
 
+    cv::Mat rotateImage(const cv::Mat & img, double angle);
+
     // Apply animation into image at position cv::Rect rect
-    void apply(cv::Mat& draw, int animation_width, int left, int bottom);
+    void apply(cv::Mat& draw, int animation_width, int left, int bottom, double angle = 0);
 
 };
 

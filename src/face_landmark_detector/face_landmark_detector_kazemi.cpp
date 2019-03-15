@@ -30,7 +30,7 @@ std::vector<LandMarkResult> FaceLandmarkDetectorKazemi::detect(const cv::Mat & i
 
     // Detect face landmarks
     std::vector <std::vector<cv::Point2f>> shapes;
-    if(facemark->fit(img, face_rects, shapes));
+    facemark->fit(img, face_rects, shapes);
 
 
     // Merge detected landmarks to landmark results;

@@ -42,6 +42,7 @@ public:
 
     const std::vector<cv::Point2f> & getFaceLandmark();
     void setFaceLandmark(std::vector<cv::Point2f> & landmark);
+    bool haveLandmark();
 
     std::vector<cv::Point2f> getMouth();
     std::vector<cv::Point2f> getRightEyeBrow();
