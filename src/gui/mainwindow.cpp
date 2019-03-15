@@ -148,7 +148,7 @@ void MainWindow::showCam() {
     using namespace cv;
 
     // TODO Guess or let user setup camera index
-    int cameraIndex = -1;
+    int cameraIndex = 1;
 
     if (!video.open(cameraIndex)) {
         QMessageBox::critical(
@@ -232,6 +232,9 @@ void MainWindow::loadEffects() {
 
     // Effect: Rabbit Ears
     image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectRabbitEars()));
+
+    // Effect: Feather Hat
+    image_effects.push_back(std::shared_ptr<ImageEffect>(new EffectFeatherHat()));
 
     // Add "No Effect"
     QListWidgetItem *new_effect = new QListWidgetItem(

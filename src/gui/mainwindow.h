@@ -23,6 +23,7 @@
 #include "effect_debug_info.h"
 #include "effect_cloud.h"
 #include "effect_rabbit_ears.h"
+#include "effect_feather_hat.h"
 
 #include "file_storage.h"
 

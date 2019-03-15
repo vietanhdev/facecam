@@ -137,6 +137,21 @@ void Animation::apply(cv::Mat& draw, cv::Rect rect) {
 
 
 // Apply animation into image at position cv::Rect rect
+void Animation::apply(cv::Mat& draw, int animation_width, int left, int bottom) {
+    const cv::Mat& animation = getFrame();
+
+    float scale_factor = static_cast<float>(animation_width) / animation.cols ;
+
+    // Optain the scaled animation
+    cv::Mat scaled_animation;
+    cv::resize(animation, scaled_animation, cv::Size(), scale_factor, scale_factor);
+
+    overlayImage(draw, scaled_animation, left, bottom);
+    
+}
+
+
+// Apply animation into image at position cv::Rect rect
 void Animation::applyHat(cv::Mat& draw, cv::Rect rect) {
     const cv::Mat& animation = getFrame();
 
