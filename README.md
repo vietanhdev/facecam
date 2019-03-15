@@ -1,23 +1,11 @@
-# mlearning-cam
-Funny camera app using Machine Learning - Project for Machine Learning and Data Mining course at HUST
+# FaceCam - Funny Camera
+
+A camera desktop application with funny face decorations and filters.
+
+This application is built to try face detection and alignment algorithms in an interesting way.
 
 
-## NOTE FOR DEVELOPERS
-
-### 1. Bug of `QString::fromStdString()`
-
-- To convert std::string to QString, the following way causes an error on Windows:
-
-```
-QString::fromStdString(string_to_convert);
-```
-
-Instead, Use `QString::fromUtf8` like this:
-```
-QString::fromUtf8(string_to_convert.c_str());
-```
-
-## DEVELOPMENT ENVIRONMENT AND BUILD
+## I. DEVELOPMENT ENVIRONMENT AND BUILD
 
 ### Requirements:
 
@@ -138,8 +126,31 @@ cmake -G "Visual Studio 15 2017 Win64" ..
     + Only after you run `windeployqt.exe  .\ml-cam.exe` successfully, you can run the excutable file `ml-cam.exe`.
 
 
-## REFERENCES
+
+## II. NOTE FOR DEVELOPERS
+
+### Bug of `QString::fromStdString()`
+
+- To convert std::string to QString, the following way causes an error on Windows:
+
+```
+QString::fromStdString(string_to_convert);
+```
+
+Instead, Use `QString::fromUtf8` like this:
+```
+QString::fromUtf8(string_to_convert.c_str());
+```
+
+
+## III. REFERENCES / CITE
 
 - In this project, we use code from:
     + Dark Theme for Qt5 by Juergen Skrotzky: [https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle](https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle).
     + Image viewer from [https://github.com/easymodo/qimgv](https://github.com/easymodo/qimgv).
+
+- Images, icons from:
+    + https://www.flaticon.com/authors/smashicons
+    + https://www.flaticon.com/authors/roundicons
+    + https://www.freepik.com/free-vector/bunny-ears-nose-carnival-mask-photo_4015599.htm
+    + and other images collected from the internet.

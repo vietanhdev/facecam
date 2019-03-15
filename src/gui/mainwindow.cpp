@@ -131,12 +131,11 @@ void MainWindow::effectList_onselectionchange() {
 
 void MainWindow::showAboutBox() {
     QMessageBox::about(this, "About Us",
-                       "This camera app is built as group project for cource "
-                       "Machine Learning & Data Mining at Hanoi University of "
-                       "Science and Technology.\n"
+                       "This camera app is built using C++, Qt, OpenCV"
+                       "and Face detection - alignment algorithms to provide"
+                       "funny decorations and filters.\n"
                        "Author:\n"
                        "\t- Viet Anh (vietanhdev.com)\n"
-                       "\t- Sy An (github.com/NguyenSyAn)\n"
                        "Icons made by:\n"
                        "\t- https://www.flaticon.com/authors/smashicons\n"
                        "\t- https://www.flaticon.com/authors/roundicons\n"
