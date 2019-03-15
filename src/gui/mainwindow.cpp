@@ -157,7 +157,7 @@ void MainWindow::showCam() {
     using namespace cv;
 
     // TODO Guess or let user setup camera index
-    int cameraIndex = -1;
+    int cameraIndex = 0;
 
     if (!video.open(cameraIndex)) {
         QMessageBox::critical(
