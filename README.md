@@ -41,7 +41,7 @@ sudo /sbin/ldconfig -v
 https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/
 ```
 
-- Install SDL lib
+- Install SDL2 lib
 ```
 sudo apt-get install libsdl2-dev
 ```
@@ -87,10 +87,23 @@ make
 - Compile and install OpenCV 4
     + Add OPENCV_DIR=C:\OpenCV\x64\vc15\staticlib
 
-- Install SDL Lib and add it to PATH
+- Install SDL Lib and add it to PATH: [https://trenki2.github.io/blog/2017/06/02/using-sdl2-with-cmake/](https://trenki2.github.io/blog/2017/06/02/using-sdl2-with-cmake/)
+    + Download the development package SDL2-devel-2.0.5-VC.zip and extract it to some location on your hard disk
+    + Set SDL2_DIR to the location where you extracted the SDL2 development package.
+    + Create a file sdl2-config.cmake where you extracted the development libraries with following content:
+```cmake
+set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/include")
+# Support both 32 and 64 bit builds
+if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+  set(SDL2_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/lib/x64/SDL2.lib;${CMAKE_CURRENT_LIST_DIR}/lib/x64/SDL2main.lib")
+else ()
+  set(SDL2_LIBRARIES "${CMAKE_CURRENT_LIST_DIR}/lib/x86/SDL2.lib;${CMAKE_CURRENT_LIST_DIR}/lib/x86/SDL2main.lib")
+endif ()
+
+string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
+```
 
 - **Restart the computer**.
-
 
 #### Compile and Run
 
