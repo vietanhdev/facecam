@@ -44,6 +44,7 @@ include_directories(
     "src"
     "src/effects"
     "src/face_detector"
+    "src/face_landmark_detector"
     "src/gui"
     "src/gui/framelesswindow"
     ${SDL2_INCLUDE_DIRS}
@@ -57,9 +58,15 @@ add_executable(${PROJECT_NAME}
     "src/gui/mainwindow.cpp"
     "src/gui/mainwindow.ui"
     "src/landmark_result.cpp"
+
     "src/face_detector/face_detector.cpp"
     "src/face_detector/face_detector_haarcascade.cpp"
     "src/face_detector/face_detector_ssd_resnet10.cpp"
+    "src/face_detector/face_detector_ssd_resnet10.cpp"
+    
+    "src/face_landmark_detector/face_landmark_detector.cpp"
+    "src/face_landmark_detector/face_landmark_detector_kazemi.cpp"
+
     "src/effects/image_effect.cpp"
     "src/effects/effect_debug_info.cpp"
     "src/effects/effect_cloud.cpp"
@@ -67,6 +74,7 @@ add_executable(${PROJECT_NAME}
     "src/effects/effect_feather_hat.cpp"
     "src/effects/effect_tiger.cpp"
     "src/effects/effect_pink_glasses.cpp"
+
     "src/timer.cpp"
     "src/effects/animation.cpp"
     "resources.qrc"

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>981</width>
     <height>583</height>
    </rect>
   </property>
@@ -144,7 +144,7 @@ font: 57 14pt;</string>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_2">
+       <widget class="QComboBox" name="faceLandmarkDetectorSelector">
         <property name="styleSheet">
          <string notr="true"/>
         </property>

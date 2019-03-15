@@ -16,8 +16,12 @@
 #include <memory>
 #include "opencv2/opencv.hpp"
 
+#include "face_detector.h"
 #include "face_detector_haarcascade.h"
 #include "face_detector_ssd_resnet10.h"
+
+#include "face_landmark_detector.h"
+#include "face_landmark_detector_kazemi.h"
 
 #include "image_effect.h"
 #include "effect_debug_info.h"
@@ -52,6 +56,7 @@ private slots:
     void recordBtn_clicked();
     void openLibraryBtn_clicked();
     void faceDetectorSelector_activated();
+    void faceLandmarkDetectorSelector_activated();
     void effectList_onselectionchange();
     void showAboutBox();
     
@@ -75,12 +80,17 @@ private:
     std::vector<std::shared_ptr<FaceDetector>> face_detectors;
     int current_face_detector_index = -1; // Index of current face detector method in face_detectors
 
+    // Face landmark detectors
+    std::vector<std::shared_ptr<FaceLandmarkDetector>> face_landmark_detectors;
+    int current_face_landmark_detector_index = -1; // Index of current face landmark detector method in face_detectors
+
     // Photo effects
     std::vector<std::shared_ptr<ImageEffect>> image_effects;
     std::vector<int> selected_effect_indices; // Indices of selected effect in image_effects
 
 public:
     void loadFaceDetectors();
+    void loadFaceLandmarkDetectors();
     void setCurrentImage(const cv::Mat & img);
     cv::Mat getCurrentImage();
     void playShutter();

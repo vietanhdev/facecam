@@ -23,3 +23,11 @@ cv::Rect LandMarkResult::getFaceRect() {
 float LandMarkResult::getFaceRectConfidence() {
     return face_rect_confidence;
 }
+
+const std::vector<cv::Point2f> & LandMarkResult::getFaceLandmark() {
+    return landmark;
+}
+
+void LandMarkResult::setFaceLandmark(std::vector<cv::Point2f> & landmark){
+    this->landmark = landmark;
+}

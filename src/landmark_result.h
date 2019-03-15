@@ -9,6 +9,7 @@ class LandMarkResult
 private:
     cv::Rect face_rect;
     float face_rect_confidence;
+    std::vector<cv::Point2f> landmark;
 
 public:
     LandMarkResult(/* args */);
@@ -18,6 +19,10 @@ public:
     float getFaceRectConfidence();
     void setFaceRect(const cv::Rect & face);
     void setFaceRect(const cv::Rect & face_rect, float confidence);
+
+    const std::vector<cv::Point2f> & getFaceLandmark();
+    void setFaceLandmark(std::vector<cv::Point2f> & landmark);
+
 };
 
 #endif

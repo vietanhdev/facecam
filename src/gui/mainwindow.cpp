@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Option selector events
     connect(ui->faceDetectorSelector, SIGNAL(activated(int)), this,
             SLOT(faceDetectorSelector_activated()));
+    connect(ui->faceLandmarkDetectorSelector, SIGNAL(activated(int)), this,
+            SLOT(faceLandmarkDetectorSelector_activated()));
     connect(ui->effectList, SIGNAL(itemSelectionChanged()), this,
             SLOT(effectList_onselectionchange()));
 
@@ -28,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Load Detectors
     loadFaceDetectors();
+    loadFaceLandmarkDetectors();
 
     // Init Audio
     SDL_Init(SDL_INIT_AUDIO);
@@ -118,6 +121,13 @@ void MainWindow::faceDetectorSelector_activated() {
             .toInt();
 }
 
+void MainWindow::faceLandmarkDetectorSelector_activated() {
+    current_face_landmark_detector_index =
+        ui->faceLandmarkDetectorSelector
+            ->itemData(ui->faceLandmarkDetectorSelector->currentIndex())
+            .toInt();
+}
+
 void MainWindow::effectList_onselectionchange() {
     QList<QListWidgetItem *> selected_effects = ui->effectList->selectedItems();
 
@@ -162,19 +172,21 @@ void MainWindow::showCam() {
         video >> frame;
         if (!frame.empty()) {
             // Detect Faces
-            std::vector<LandMarkResult> landmarks;
+            std::vector<LandMarkResult> faces;
             if (current_face_detector_index >= 0) {
-                landmarks =
-                    face_detectors[current_face_detector_index]->detect(frame);
+                faces = face_detectors[current_face_detector_index]->detect(frame);
 
+                if (current_face_landmark_detector_index >= 0) {
+                    face_landmark_detectors[current_face_landmark_detector_index]->detect(frame, faces);
+                }
             } else {  // Clear old results
-                landmarks.clear();
+                faces.clear();
             }
 
             for (size_t i = 0; i < selected_effect_indices.size(); ++i) {
                 if (selected_effect_indices[i] >= 0) {
                     image_effects[selected_effect_indices[i]]->apply(frame,
-                                                                     landmarks);
+                                                                     faces);
                 }
             }
 
@@ -219,6 +231,26 @@ void MainWindow::loadFaceDetectors() {
     ui->faceDetectorSelector->addItem("None", -1);
 
     current_face_detector_index = 0;  // set default face detector method
+}
+
+
+// Load face landmark detectors
+void MainWindow::loadFaceLandmarkDetectors() {
+
+    // Landmark Kazemi
+    face_landmark_detectors.push_back(
+        std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorKazemi()));
+
+    // Add detectors to selector box of GUI
+    for (size_t i = 0; i < face_landmark_detectors.size(); ++i) {
+        ui->faceLandmarkDetectorSelector->addItem(
+            QString::fromUtf8(face_landmark_detectors[i]->getDetectorName().c_str()),
+            QVariant(static_cast<int>(i)));
+    }
+    // Add None option
+    ui->faceLandmarkDetectorSelector->addItem("None", -1);
+
+    current_face_landmark_detector_index = 0;  // set default face detector method
 }
 
 void MainWindow::loadEffects() {
