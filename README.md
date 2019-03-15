@@ -4,6 +4,8 @@ A camera desktop application with funny face decorations and filters.
 
 This application is built to try face detection and alignment algorithms in an interesting way.
 
+**Supported Operating Systems:** Currently, we only support Windows and Ubuntu operation system. However, you can also try to build it for other linux distribution and macOS.
+
 
 ## I. DEVELOPMENT ENVIRONMENT AND BUILD
 
