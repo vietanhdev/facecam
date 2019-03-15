@@ -66,6 +66,7 @@ add_executable(${PROJECT_NAME}
     
     "src/face_landmark_detector/face_landmark_detector.cpp"
     "src/face_landmark_detector/face_landmark_detector_kazemi.cpp"
+    "src/face_landmark_detector/face_landmark_detector_lbf.cpp"
 
     "src/effects/image_effect.cpp"
     "src/effects/effect_debug_info.cpp"

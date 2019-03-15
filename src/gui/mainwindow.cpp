@@ -237,9 +237,14 @@ void MainWindow::loadFaceDetectors() {
 // Load face landmark detectors
 void MainWindow::loadFaceLandmarkDetectors() {
 
+    // Landmark LBF
+    face_landmark_detectors.push_back(
+        std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorLBF()));
+
     // Landmark Kazemi
     face_landmark_detectors.push_back(
         std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorKazemi()));
+        
 
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_landmark_detectors.size(); ++i) {
