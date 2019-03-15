@@ -131,8 +131,8 @@ void MainWindow::effectList_onselectionchange() {
 
 void MainWindow::showAboutBox() {
     QMessageBox::about(this, "About Us",
-                       "This camera app is built using C++, Qt, OpenCV"
-                       "and Face detection - alignment algorithms to provide"
+                       "This camera app is built using C++, Qt, OpenCV "
+                       "and Face detection - alignment algorithms to provide "
                        "funny decorations and filters.\n"
                        "Author:\n"
                        "\t- Viet Anh (vietanhdev.com)\n"
