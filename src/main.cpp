@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 
     // Create frameless window (and set windowState or title)
     FramelessWindow framelessWindow;
-    framelessWindow.setWindowTitle("mLearning Cam");
+    framelessWindow.setWindowTitle("FaceCam");
     framelessWindow.setWindowIcon(a.style()->standardIcon(QStyle::SP_DesktopIcon));
     
     // Create our mainwindow instance

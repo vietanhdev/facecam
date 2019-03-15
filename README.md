@@ -59,7 +59,7 @@ make
 
 - Run
 ```
-./ml-cam
+./FaceCam
 ```
 
 ### Setup for Windows 10
@@ -115,13 +115,13 @@ cd build-win
 cmake -G "Visual Studio 15 2017 Win64" ..
 ```
 
-- Open `build-win\ml-cam.sln` with Visual Studio 2017.
+- Open `build-win\FaceCam.sln` with Visual Studio 2017.
 
-- Set `ml-cam` as StartUp project. (Right click `ml-cam` project > Set as StartUp project)
+- Set `FaceCam` as StartUp project. (Right click `FaceCam` project > Set as StartUp project)
 
-- Right click `ml-cam` project > **Properties** > **Configuration Properties** > **C/C++** > **Code Generation** >  Set **Runtime Library** to `Multi-threaded (/MT)`. **You need to check this option again after changing the build mode (debug/release)**.
+- Right click `FaceCam` project > **Properties** > **Configuration Properties** > **C/C++** > **Code Generation** >  Set **Runtime Library** to `Multi-threaded (/MT)`. **You need to check this option again after changing the build mode (debug/release)**.
 
-- Set Working Directory in Debugging to TargetDir: Right click `ml-cam` project > **Properties** > **Configuration Properties** > **Debugging** > Set **Working Directory** to `$(TargetDir)`. 
+- Set Working Directory in Debugging to TargetDir: Right click `FaceCam` project > **Properties** > **Configuration Properties** > **Debugging** > Set **Working Directory** to `$(TargetDir)`. 
 
 - Build project with Visual Studio 2017.
 
@@ -130,18 +130,18 @@ cmake -G "Visual Studio 15 2017 Win64" ..
     + For Release Build
     ```
     cd build-win\Release
-    windeployqt.exe --release  .\ml-cam.exe
+    windeployqt.exe --release FaceCam.exe
     ```
 
     + For Debug Build
     ```
     cd build-win\Debug
-    windeployqt.exe --debug  .\ml-cam.exe
+    windeployqt.exe --debug FaceCam.exe
     ```
 
 - **NOTE**:
     + If you build with Release mode, `cd build-win\Release`.
-    + Only after you run `windeployqt.exe  .\ml-cam.exe` successfully, you can run the excutable file `ml-cam.exe`.
+    + Only after you run `windeployqt.exe  .\FaceCam.exe` successfully, you can run the excutable file `FaceCam.exe`.
 
 
 

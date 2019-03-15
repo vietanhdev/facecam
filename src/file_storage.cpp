@@ -59,7 +59,7 @@ fs::path FileStorage::getVideoPath() { return VIDEO_FOLDER; }
 bool FileStorage::saveImage(const cv::Mat& img) {
 
     // *** Create a unique file name for each image
-    // The image path is formated like this: .../mLearningCam/Photos/2019-02-08-21-55-88.1549637628399.png
+    // The image path is formated like this: .../FaceCam/Photos/2019-02-08-21-55-88.1549637628399.png
 
     std::stringstream filename;
 

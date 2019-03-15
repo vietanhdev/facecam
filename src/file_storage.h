@@ -13,7 +13,7 @@ namespace ml_cam {
 
 class FileStorage {
    private:
-    const fs::path DATA_FOLDER_NAME = "mLearningCam";
+    const fs::path DATA_FOLDER_NAME = "FaceCam";
     const fs::path PHOTO_FOLDER_NAME = "Photos";
     const fs::path VIDEO_FOLDER_NAME = "Videos";
     fs::path DATA_FOLDER;
