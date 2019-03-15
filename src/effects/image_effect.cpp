@@ -3,7 +3,7 @@
 
 ImageEffect::ImageEffect(std::string name, std::string icon_path) {
     this->name = name;
-    this->icon = cv::imread(icon_path, cv::IMREAD_COLOR);
+    this->icon = cv::imread(icon_path, -1);
 }
 
 ImageEffect::~ImageEffect() {}

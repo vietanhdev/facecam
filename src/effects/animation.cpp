@@ -8,9 +8,9 @@ Animation::~Animation() {}
 
 // Add a frame to animation
 void Animation::addFrame(const std::string& img_path) {
-	fs::path abs_img_path = fs::absolute(img_path);
+    fs::path abs_img_path = fs::absolute(img_path);
     cv::Mat frame;
-    frame = cv::imread(abs_img_path.string(), cv::IMREAD_COLOR);
+    frame = cv::imread(abs_img_path.string(), -1);
     frames.push_back(frame);
 }
 
@@ -48,104 +48,70 @@ void Animation::setFPS(float fps) {
     }
 }
 
+void Animation::overlayImage(const cv::Mat& background, const cv::Mat& foreground,
+                  cv::Mat& output, cv::Point2i location) {
+    background.copyTo(output);
 
-// Overlay image to another image
-void Animation::overlayImage(cv::Mat & draw, cv::Mat & overlay, int x, int bottom_y) {
-   
-    // Calculate the position of overlay
-    int y2 = bottom_y;
-    int x1 = x;
-    int y1 = y2 - overlay.rows;
-    int x2 = x1 + overlay.cols;
-    
-    cv::Rect overlay_crop_window(0, 0, overlay.cols, overlay.rows);
-    std::cout << overlay_crop_window << std::endl;
+    // start at the row indicated by location, or at row 0 if location.y is
+    // negative.
+    for (int y = std::max(location.y, 0); y < background.rows; ++y) {
+        int fY = y - location.y;  // because of the translation
 
-    // The left edge of overlay goes over the image boundary
-    if (x1 < 0) {
-        int x_increment = -x1;
-        overlay_crop_window.x += x_increment;
-        overlay_crop_window.width -= x_increment;
-        x1 = 0;
+        // we are done of we have processed all rows of the foreground image.
+        if (fY >= foreground.rows) break;
+
+        // start at the column indicated by location,
+
+        // or at column 0 if location.x is negative.
+        for (int x = std::max(location.x, 0); x < background.cols; ++x) {
+            int fX = x - location.x;  // because of the translation.
+
+            // we are done with this row if the column is outside of the
+            // foreground image.
+            if (fX >= foreground.cols) break;
+
+            // determine the opacity of the foregrond pixel, using its fourth
+            // (alpha) channel.
+            double opacity =
+                ((double)foreground.data[fY * foreground.step +
+                                         fX * foreground.channels() + 3])
+
+                / 255.;
+
+            // and now combine the background and foreground pixel, using the
+            // opacity,
+
+            // but only if opacity > 0.
+            for (int c = 0; opacity > 0 && c < output.channels(); ++c) {
+                unsigned char foregroundPx =
+                    foreground.data[fY * foreground.step +
+                                    fX * foreground.channels() + c];
+                unsigned char backgroundPx =
+                    background.data[y * background.step +
+                                    x * background.channels() + c];
+                output.data[y * output.step + output.channels() * x + c] =
+                    backgroundPx * (1. - opacity) + foregroundPx * opacity;
+            }
+        }
     }
-
-    // The top edge of overlay goes over the image boundary
-    if (y1 < 0) {
-        int y_increment = -y1;
-        overlay_crop_window.y += y_increment;
-        overlay_crop_window.height -= y_increment;
-        y1 = 0;
-    }
-
-    // The right edge of overlay goes over the image boundary
-    if (x2 >= draw.cols) {
-        overlay_crop_window.width -= x2 - draw.cols + 1;
-        x2 = draw.cols - 1;
-    }
-
-    // The bottom edge of overlay goes over the image boundary
-    if (y2 >= draw.rows) {
-        overlay_crop_window.height -= y2 - draw.rows + 1;
-        y2 = draw.rows - 1;
-    }
-
-    cv::Point tl(x1, y1);
-    cv::Point br(x2, y2);
-    cv::Rect overlay_pos(tl, br);
-
-    std::cout << overlay_crop_window << std::endl;
-
-    cv::Mat crop_overlay = overlay(overlay_crop_window);
-
-    // Merge overlay into image
-    cv::Mat roi = draw(overlay_pos);  // Image of background image
-    cv::Mat mask;
-    cv::Mat mask_inv;
-    cv::Mat crop_overlay_gray;
-    cv::cvtColor(crop_overlay, crop_overlay_gray, cv::COLOR_BGR2GRAY);
-    cv::threshold(crop_overlay_gray, mask, 1, 255, cv::THRESH_BINARY);
-    cv::bitwise_not(mask, mask_inv);
-
-    cv::Mat background, foreground;
-    cv::bitwise_and(roi, roi, background, mask_inv);
-    cv::bitwise_and(crop_overlay, crop_overlay, foreground, mask);
-
-    cv::Mat merged;
-    cv::add(background, foreground, merged);
-
-    merged.copyTo(roi);
-
-}
-
-// Apply animation into image at position cv::Rect rect
-void Animation::apply(cv::Mat& draw, cv::Rect rect) {
-    const cv::Mat& animation = getFrame();
-
-    float scale_factor = static_cast<float>(rect.width) / animation.cols;
-
-    // Optain the scaled animation
-    cv::Mat scaled_animation;
-    cv::resize(animation, scaled_animation, cv::Size(), scale_factor, scale_factor);
-
-    // Calculate the position of animation
-    int x = rect.tl().x;
-    int bottom_y = rect.tl().y - rect.height / 5;
-
-    overlayImage(draw, scaled_animation, x, bottom_y);
-    
 }
 
 
 // Apply animation into image at position cv::Rect rect
-void Animation::apply(cv::Mat& draw, int animation_width, int left, int bottom) {
+void Animation::apply(cv::Mat& draw, int animation_width, int left,
+                      int bottom) {
     const cv::Mat& animation = getFrame();
 
-    float scale_factor = static_cast<float>(animation_width) / animation.cols ;
+    float scale_factor = static_cast<float>(animation_width) / animation.cols;
 
     // Optain the scaled animation
     cv::Mat scaled_animation;
-    cv::resize(animation, scaled_animation, cv::Size(), scale_factor, scale_factor);
+    cv::resize(animation, scaled_animation, cv::Size(), scale_factor,
+               scale_factor);
 
-    overlayImage(draw, scaled_animation, left, bottom);
-    
+    // overlayImage(draw, scaled_animation, left, bottom);
+    cv::Mat result;
+    int y1 = bottom - scaled_animation.rows;
+    overlayImage(draw, scaled_animation, result, cv::Point2i(left, y1));
+    draw = result;
 }

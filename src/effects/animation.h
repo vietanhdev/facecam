@@ -22,11 +22,10 @@ class Animation {
     const cv::Mat & getFrame();
     void setFPS(float fps);
 
-	// Apply animation into image at position cv::Rect rect
-	void apply(cv::Mat & draw, cv::Rect rect);
-
-    // Overlay image to another image
-    void overlayImage(cv::Mat & draw, cv::Mat & overlay, int x, int bottom_y);
+    // Code from: http://jepsonsblog.blogspot.com/2012/10/overlay-transparent-image-in-opencv.html
+    // NOTE: background must be in BGR, foreground must be in GBRA format (png image)
+    void overlayImage(const cv::Mat& background, const cv::Mat& foreground,
+                  cv::Mat& output, cv::Point2i location);
 
     // Apply animation into image at position cv::Rect rect
     void apply(cv::Mat& draw, int animation_width, int left, int bottom);
