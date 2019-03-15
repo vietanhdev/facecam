@@ -3,6 +3,7 @@
 
 
 #include "opencv2/opencv.hpp"
+#include <algorithm>    // std::copy
 
 class LandMarkResult
 {
@@ -10,6 +11,16 @@ private:
     cv::Rect face_rect;
     float face_rect_confidence;
     std::vector<cv::Point2f> landmark;
+
+    // Indices of face parts.
+    // The first element is start index. The second element is the last index
+    const int MOUTH_IDX[2] = { 48, 68 };
+    const int RIGHT_EYE_BROW_IDX[2] = { 17, 22 };
+    const int LEFT_EYE_BROW_IDX[2] = { 22, 27 };
+    const int RIGHT_EYE_IDX[2] = { 36, 42 };
+    const int LEFT_EYE_IDX[2] = { 42, 48 };
+    const int NOSE_IDX[2] = { 27, 35 };
+    const int JAW_IDX[2] = { 0, 17 };
 
 public:
     LandMarkResult(/* args */);
@@ -22,6 +33,14 @@ public:
 
     const std::vector<cv::Point2f> & getFaceLandmark();
     void setFaceLandmark(std::vector<cv::Point2f> & landmark);
+
+    std::vector<cv::Point2f> getMouth();
+    std::vector<cv::Point2f> getRightEyeBrow();
+    std::vector<cv::Point2f> getLeftEyeBrow();
+    std::vector<cv::Point2f> getRightEye();
+    std::vector<cv::Point2f> getLeftEye();
+    std::vector<cv::Point2f> getNose();
+    std::vector<cv::Point2f> getJaw();
 
 };
 
