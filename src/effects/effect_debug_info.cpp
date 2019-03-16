@@ -22,4 +22,8 @@ void EffectDebugInfo::apply(cv::Mat& draw,
             cv::circle(draw, landmark_points[k], 5, cv::Scalar(0, 0, 255), cv::FILLED);
         }
     }
+
+    // Frame info
+    cv::putText(draw, std::string("Frame Size: ") +
+            std::to_string(draw.cols) + " x " + std::to_string(draw.rows), cv::Point(10, 25), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar(0, 255, 0), 1);
 }
