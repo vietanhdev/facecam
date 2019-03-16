@@ -176,14 +176,23 @@ void MainWindow::showCam() {
             flip(frame, frame, 1);
 
             // Detect Faces
+            Timer::time_duration_t face_detection_duration;
+            Timer::time_duration_t face_alignment_duration;
             std::vector<LandMarkResult> faces;
             if (current_face_detector_index >= 0) {
+
+                Timer::time_point_t start_time = Timer::getCurrentTime();
                 faces = face_detectors[current_face_detector_index]->detect(frame);
+                face_detection_duration = Timer::calcTimePassed(start_time);
 
                 if (current_face_landmark_detector_index >= 0) {
+                    start_time = Timer::getCurrentTime();
                     face_landmark_detectors[current_face_landmark_detector_index]->detect(frame, faces);
+                    face_alignment_duration = Timer::calcTimePassed(start_time);
                 }
             } else {  // Clear old results
+                face_detection_duration = 0;
+                face_alignment_duration = 0;
                 faces.clear();
             }
 
@@ -197,8 +206,17 @@ void MainWindow::showCam() {
             // Apply effects / filters
             for (size_t i = 0; i < selected_effect_indices.size(); ++i) {
                 if (selected_effect_indices[i] >= 0) {
-                    image_effects[selected_effect_indices[i]]->apply(frame,
-                                                                     faces);
+
+                    // Output FPS in debug
+                    if (image_effects[selected_effect_indices[i]]->getName() == "Debug Info") {
+
+                        float detection_fps = face_detection_duration == 0 ? 0 : 1000.0 / face_detection_duration;
+                        float alignment_fps = face_alignment_duration == 0 ? 0 : 1000.0 / face_alignment_duration;
+
+                        std::dynamic_pointer_cast<EffectDebugInfo>(image_effects[selected_effect_indices[i]])->outputFPS(detection_fps, alignment_fps);
+                    }
+
+                    image_effects[selected_effect_indices[i]]->apply(frame, faces);
                 }
             }
 
