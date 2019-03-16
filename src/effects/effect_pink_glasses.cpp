@@ -19,24 +19,18 @@ void EffectPinkGlasses::apply(cv::Mat & draw, std::vector<LandMarkResult> & face
         if (faces[i].haveLandmark()) {
 
             std::vector<cv::Point2f> face_landmark = faces[i].getFaceLandmark();
-            std::vector<cv::Point2f> right_eye = faces[i].getRightEye();
-            std::vector<cv::Point2f> left_eye = faces[i].getLeftEye();
-
-            cv::Rect right_eye_bound = cv::boundingRect(right_eye);
-            cv::Rect left_eye_bound = cv::boundingRect(left_eye);
-            cv::Rect eyes_bound = right_eye_bound | left_eye_bound;
-
 
             // Calculate the angle of glasses
             cv::Point left_point = face_landmark[36]; // Left most point of left eye
             cv::Point right_point =  face_landmark[45]; // Right most point of right eye
-            double angle = - atan2(left_point.y - right_point.y, left_point.x - right_point.x) * 180 / 3.14;
+            double angle = - atan2(right_point.y - left_point.y, right_point.x - left_point.x) * 180 / 3.14;
 
             // Calculate the position of animation
-            int animation_width = eyes_bound.width * 2;
+            int eyes_width = std::abs(left_point.x - right_point.x);
+            int animation_width = eyes_width * 1.6;
 
-            int left = eyes_bound.tl().x - (animation_width - eyes_bound.width) / 2;
-            int bottom = eyes_bound.br().y + eyes_bound.height * 2;
+            int left = left_point.x - (animation_width - eyes_width) / 2;
+            int bottom = std::max(left_point.y, right_point.y) + eyes_width * 0.35;
 
             pink_glasses_animation.apply(draw, animation_width, left, bottom, angle); 
 
