@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
             SLOT(openLibraryBtn_clicked()));
 
     // Option selector events
+    connect(ui->cameraSelector, SIGNAL(activated(int)), this,
+            SLOT(cameraSelector_activated()));
     connect(ui->faceDetectorSelector, SIGNAL(activated(int)), this,
             SLOT(faceDetectorSelector_activated()));
     connect(ui->faceLandmarkDetectorSelector, SIGNAL(activated(int)), this,
@@ -34,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Load Detectors
     loadFaceDetectors();
     loadFaceLandmarkDetectors();
+
+    refreshCams();
 
     // Init Audio
     SDL_Init(SDL_INIT_AUDIO);
@@ -126,6 +130,13 @@ void MainWindow::faceLandmarkDetectorSelector_activated() {
             .toInt();
 }
 
+void MainWindow::cameraSelector_activated() {
+    selected_camera_index =
+        ui->cameraSelector
+            ->itemData(ui->cameraSelector->currentIndex())
+            .toInt();
+}
+
 void MainWindow::effectList_onselectionchange() {
     QList<QListWidgetItem *> selected_effects = ui->effectList->selectedItems();
 
@@ -154,10 +165,7 @@ void MainWindow::showAboutBox() {
 void MainWindow::showCam() {
     using namespace cv;
 
-    // TODO Guess or let user setup camera index
-    int cameraIndex = 0;
-
-    if (!video.open(cameraIndex)) {
+    if (!video.open(current_camera_index)) {
         QMessageBox::critical(
             this, "Camera Error",
             "Make sure you entered a correct camera index,"
@@ -166,7 +174,38 @@ void MainWindow::showCam() {
     }
 
     Mat frame;
-    while (video.isOpened()) {
+    while (true) {
+
+        // User changed camera
+        if (selected_camera_index != current_camera_index) {
+            
+            video.release();
+            refreshCams();
+            current_camera_index = selected_camera_index;
+            video.open(current_camera_index);
+
+        } else if (!video.isOpened()) {
+
+            // Reset to default camera (0)
+            refreshCams();
+            current_camera_index = selected_camera_index =
+            ui->cameraSelector
+                ->itemData(ui->cameraSelector->currentIndex())
+                .toInt();
+            ui->cameraSelector->setCurrentIndex(0);
+            video.open(current_camera_index);
+
+        }
+
+        // If we still cannot open camera, exit the program
+        if (!video.isOpened()) {
+            QMessageBox::critical(
+            this, "Camera Error",
+            "Make sure you entered a correct camera index,"
+            "<br>or that the camera is not being accessed by another program!");
+            exit(1);
+        }
+
         video >> frame;
         if (!frame.empty()) {
 
@@ -323,6 +362,32 @@ void MainWindow::loadEffects() {
             effect_name_qs);
         new_effect->setData(Qt::UserRole, QVariant(static_cast<int>(i)));
         ui->effectList->addItem(new_effect);
+    }
+}
+
+
+void MainWindow::refreshCams() {
+
+    // Get the number of camera available
+    cv::VideoCapture temp_camera;
+    ui->cameraSelector->clear();
+    for (int i = 0; i < MAX_CAMS; ++i) {
+        cv::VideoCapture temp_camera(i);
+        bool fail = (!temp_camera.isOpened());
+        temp_camera.release();
+
+        // If we can open camera, add new camera to list
+        if (!fail) {
+            ui->cameraSelector->addItem(
+            QString::fromUtf8((std::string("CAM") + std::to_string(i)).c_str()),
+            QVariant(static_cast<int>(i)));
+        }
+    }
+
+    // Select current camera
+    int index = ui->cameraSelector->findData(selected_camera_index);
+    if ( index != -1 ) { // -1 for not found
+        ui->cameraSelector->setCurrentIndex(index);
     }
 }
 

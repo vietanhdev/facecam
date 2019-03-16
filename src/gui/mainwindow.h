@@ -57,10 +57,12 @@ protected:
 private slots:
     void captureBtn_clicked();
     void openLibraryBtn_clicked();
+    void cameraSelector_activated();
     void faceDetectorSelector_activated();
     void faceLandmarkDetectorSelector_activated();
     void effectList_onselectionchange();
     void showAboutBox();
+    void refreshCams();
     
 private:
     Ui::MainWindow *ui;
@@ -90,12 +92,20 @@ private:
     std::vector<std::shared_ptr<ImageEffect>> image_effects;
     std::vector<int> selected_effect_indices; // Indices of selected effect in image_effects
 
+
+    // Camera to use
+    int MAX_CAMS = 5; // Max number of camera supported. This number used to scan cameras
+    int current_camera_index = 0;
+    int selected_camera_index = 0;
+
+
 public:
     void loadFaceDetectors();
     void loadFaceLandmarkDetectors();
     void setCurrentImage(const cv::Mat & img);
     cv::Mat getCurrentImage();
     void playShutter();
+
 };
 
 #endif // MAINWINDOW_H
