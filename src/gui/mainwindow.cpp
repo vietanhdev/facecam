@@ -170,8 +170,10 @@ void MainWindow::showCam() {
         video >> frame;
         if (!frame.empty()) {
 
-            // Flip frame to receive correct image from camera
-            flip(frame, frame, 1);
+            // Flip frame
+            if (ui->flipCameraCheckBox->isChecked()) {
+                flip(frame, frame, 1);
+            }
 
             // Detect Faces
             Timer::time_duration_t face_detection_duration;
