@@ -28,9 +28,9 @@ void EffectPinkGlasses::apply(cv::Mat & draw, std::vector<LandMarkResult> & face
 
 
             // Calculate the angle of glasses
-            cv::Point p1 = left_eye_bound.tl();
-            cv::Point p2 = right_eye_bound.tl();
-            double angle = - atan2(p1.y - p2.y, p1.x - p2.x) * 180 / 3.14;
+            cv::Point left_point = face_landmark[36]; // Left most point of left eye
+            cv::Point right_point =  face_landmark[45]; // Right most point of right eye
+            double angle = - atan2(left_point.y - right_point.y, left_point.x - right_point.x) * 180 / 3.14;
 
             // Calculate the position of animation
             int animation_width = eyes_bound.width * 2;
