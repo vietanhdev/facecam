@@ -172,6 +172,9 @@ void MainWindow::showCam() {
         video >> frame;
         if (!frame.empty()) {
 
+            // Flip frame to receive correct image from camera
+            flip(frame, frame, 1);
+
             // Detect Faces
             std::vector<LandMarkResult> faces;
             if (current_face_detector_index >= 0) {
