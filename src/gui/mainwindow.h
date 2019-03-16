@@ -55,7 +55,6 @@ protected:
 
 private slots:
     void captureBtn_clicked();
-    void recordBtn_clicked();
     void openLibraryBtn_clicked();
     void faceDetectorSelector_activated();
     void faceLandmarkDetectorSelector_activated();

@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect buttons
     connect(ui->captureBtn, SIGNAL(released()), this,
             SLOT(captureBtn_clicked()));
-    connect(ui->recordBtn, SIGNAL(released()), this, SLOT(recordBtn_clicked()));
     connect(ui->infoBtn, SIGNAL(released()), this, SLOT(showAboutBox()));
     connect(ui->openLibraryBtn, SIGNAL(released()), this,
             SLOT(openLibraryBtn_clicked()));
@@ -95,11 +94,6 @@ void MainWindow::captureBtn_clicked() {
                             QImage::Format_RGB888);
     ui->openLibraryBtn->setIcon(QIcon(QPixmap::fromImage(btn_white_icon)));
     ui->openLibraryBtn->setIcon(QIcon(QPixmap::fromImage(btn_icon)));
-}
-
-void MainWindow::recordBtn_clicked() {
-    QMessageBox::critical(this, "NOT IMPLEMENTED",
-                          "This function hasn't been implemented");
 }
 
 void MainWindow::openLibraryBtn_clicked() {
