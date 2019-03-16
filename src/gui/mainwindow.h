@@ -9,6 +9,7 @@
 #include <QPixmap>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QShortcut>
 
 #include <SDL.h>
 

@@ -24,6 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->effectList, SIGNAL(itemSelectionChanged()), this,
             SLOT(effectList_onselectionchange()));
 
+    // Use space to capture
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_Space), this);
+    QObject::connect(shortcut, SIGNAL(activated()), this, SLOT(captureBtn_clicked()));
+
     // load effects to use in this project
     loadEffects();
 
