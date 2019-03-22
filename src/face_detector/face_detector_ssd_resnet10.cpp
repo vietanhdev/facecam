@@ -42,9 +42,17 @@ std::vector<LandMarkResult> FaceDetectorSSDResNet10::detect(const cv::Mat & img)
             int x2 = static_cast<int>(detectionMat.at<float>(i, 5) * frame_width);
             int y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frame_height);
 
-            LandMarkResult landmark;
-            landmark.setFaceRect(cv::Rect(cv::Point(x1, y1), cv::Point(x2, y2)), confidence);
-            landmark_results.push_back(landmark);
+
+            cv::Rect face(x1, y1, x2 - x1, y2 - y1);
+            // Put face into the result only if face does not go out of the boundary of image.
+            // This prevent false positive for OpenCV HaarCascade and ResNet10 face detector
+            // if ( 0 <= face.x && 0 <= face.width && face.x + face.width <= img.cols
+            // && 0 <= face.y && 0 <= face.height && face.y + face.height <= img.rows) {
+                LandMarkResult landmark;
+                landmark.setFaceRect(face);
+                landmark_results.push_back(landmark);
+            // }
+            std::cout << face << std::endl;
 
         }
     }

@@ -27,9 +27,16 @@ std::vector<LandMarkResult> FaceDetectorHaarCascade::detect(const cv::Mat & img)
     // Convert rect to landmark results;
     std::vector <LandMarkResult> landmark_results; 
     for (size_t i = 0; i < faces.size(); ++i) {
-        LandMarkResult landmark;
-        landmark.setFaceRect(faces[i]);
-        landmark_results.push_back(landmark);
+
+        // Put face into the result only if face does not go out of the boundary of image.
+        // This prevent false positive for OpenCV HaarCascade and ResNet10 face detector
+        if ( 0 <= faces[i].x && 0 <= faces[i].width && faces[i].x + faces[i].width <= img.cols
+        && 0 <= faces[i].y && 0 <= faces[i].height && faces[i].y + faces[i].height <= img.rows) {
+            LandMarkResult landmark;
+            landmark.setFaceRect(faces[i]);
+            landmark_results.push_back(landmark);
+        }
+
     }
 
     return landmark_results;
