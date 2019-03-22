@@ -60,7 +60,7 @@ add_executable(${PROJECT_NAME}
     "src/landmark_result.cpp"
 
     "src/face_detector/face_detector.cpp"
-    "src/face_detector/face_detector_haarcascade.cpp"
+    "src/face_detector/face_detector_cascade.cpp"
     "src/face_detector/face_detector_ssd_resnet10.cpp"
     "src/face_detector/face_detector_ssd_resnet10.cpp"
     

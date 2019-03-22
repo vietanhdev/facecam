@@ -288,7 +288,12 @@ void MainWindow::loadFaceDetectors() {
 
     // Haar cascade detector
     face_detectors.push_back(
-        std::shared_ptr<FaceDetector>(new FaceDetectorHaarCascade()));
+        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade-pretrained", "models/detect_haarcascade/haarcascade_frontalface.xml")));
+
+    // LBF cascade detector
+    // Pretrained model v6 - vietanhdev
+    face_detectors.push_back(
+        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("LBFCascade-v6", "models/detect_lbfcascade/lbf_fact_detect_6.xml")));
 
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_detectors.size(); ++i) {

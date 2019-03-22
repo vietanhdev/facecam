@@ -1,19 +1,19 @@
-#include "face_detector_haarcascade.h"
+#include "face_detector_cascade.h"
 
-FaceDetectorHaarCascade::FaceDetectorHaarCascade() {
-    setDetectorName("Haar Cascade");
-    fs::path FACE_CASCADE_PATH_ABS = fs::absolute(FACE_CASCADE_PATH);
+FaceDetectorCascade::FaceDetectorCascade(std::string detector_name, std::string model_path) {
+    setDetectorName(detector_name);
+    fs::path FACE_CASCADE_PATH_ABS = fs::absolute(model_path);
     if( !face_cascade.load(FACE_CASCADE_PATH_ABS.string()) ) {
-        std::cout << "Cannot Open Haar Cascade model: " << FACE_CASCADE_PATH << std::endl;
+        std::cout << "Cannot Open Haar Cascade model: " << FACE_CASCADE_PATH_ABS << std::endl;
         exit(-1);
     }
 }
 
-FaceDetectorHaarCascade::~FaceDetectorHaarCascade() {
+FaceDetectorCascade::~FaceDetectorCascade() {
 }
 
 
-std::vector<LandMarkResult> FaceDetectorHaarCascade::detect(const cv::Mat & img) {
+std::vector<LandMarkResult> FaceDetectorCascade::detect(const cv::Mat & img) {
 
     cv::Mat gray;
     

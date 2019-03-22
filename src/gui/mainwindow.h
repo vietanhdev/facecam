@@ -19,7 +19,7 @@
 #include "opencv2/opencv.hpp"
 
 #include "face_detector.h"
-#include "face_detector_haarcascade.h"
+#include "face_detector_cascade.h"
 #include "face_detector_ssd_resnet10.h"
 
 #include "face_landmark_detector.h"
