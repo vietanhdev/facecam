@@ -27,9 +27,11 @@ std::vector<int> FaceLandmarkDetectorSyanCNN::getFacialPoints(const cv::Mat & im
 
     in.data_ = flat;
 
-    // Run prediction.
+    // Load model each running time
     // auto model = keras2cpp::Model::load("./models/alignment_syan_cnn/AN01.model");
     // keras2cpp::Tensor out = model(in);
+
+    // Use preloaded model from constructor
     keras2cpp::Tensor out = (*model)(in);
 
     std::vector<int> facial_points;
