@@ -6,8 +6,7 @@ FaceLandmarkDetectorSyanCNN::FaceLandmarkDetectorSyanCNN() {
     fs::path MODEL_PATH_ABS = fs::absolute(MODEL_PATH);
 
     // Initialize model
-    keras2cpp::Model model = keras2cpp::Model::load(MODEL_PATH_ABS);    // Initialize model
-    this->model = &model;   // Because the model can not be coppied, so we use the pointer to pass to function
+    this->model = std::make_shared<keras2cpp::Model>(keras2cpp::Model::load(MODEL_PATH_ABS));    // Initialize model
     
 }
 
