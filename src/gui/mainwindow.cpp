@@ -290,6 +290,10 @@ void MainWindow::loadFaceDetectors() {
     face_detectors.push_back(
         std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade-pretrained", "models/detect_haarcascade/haarcascade_frontalface.xml")));
 
+    // Haar cascade detector v1
+    face_detectors.push_back(
+        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade-v1", "models/detect_haarcascade/haarcascade_v1.xml")));
+
     // LBF cascade detector
     // Pretrained model v6 - vietanhdev
     face_detectors.push_back(
@@ -318,6 +322,11 @@ void MainWindow::loadFaceLandmarkDetectors() {
     // Landmark Kazemi
     face_landmark_detectors.push_back(
         std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorKazemi()));
+
+    
+    // Landmark Sy An CNN
+    face_landmark_detectors.push_back(
+        std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorSyanCNN()));
         
 
     // Add detectors to selector box of GUI
