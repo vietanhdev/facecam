@@ -28,9 +28,6 @@ void EffectDebugInfo::apply(cv::Mat& draw,
                 for (unsigned long k = 0; k < landmark_points.size(); k++) {
                 cv::circle(draw, landmark_points[k], 5, cv::Scalar(0, 0, 255), cv::FILLED);
             }
-
-            cv::circle(draw, landmark_points[45], 5, cv::Scalar(0, 255, 0), cv::FILLED); // Right most point of right eye
-            cv::circle(draw, landmark_points[36], 5, cv::Scalar(0, 255, 0), cv::FILLED); // Left most point of left eye
         }
 
     }
