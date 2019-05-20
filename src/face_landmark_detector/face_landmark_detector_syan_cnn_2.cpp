@@ -3,7 +3,13 @@
 
 FaceLandmarkDetectorSyanCNN2::FaceLandmarkDetectorSyanCNN2() {
     setDetectorName("SyanCNN 2");
+<<<<<<< HEAD
     fs::path MODEL_PATH_ABS = fs::absolute(MODEL_PATH);
+=======
+    fs::path TENSORFLOW_WEIGHT_FILE_PATH_ABS = fs::absolute(TENSORFLOW_WEIGHT_FILE);
+    fs::path TENSORFLOW_CONFIG_FILE_PATH_ABS = fs::absolute(TENSORFLOW_CONFIG_FILE);
+    face_model = cv::dnn::readNetFromTensorflow(TENSORFLOW_WEIGHT_FILE_PATH_ABS.string());
+>>>>>>> master
 }
 
 FaceLandmarkDetectorSyanCNN2::~FaceLandmarkDetectorSyanCNN2() {}
@@ -17,11 +23,28 @@ std::vector<int> FaceLandmarkDetectorSyanCNN2::getFacialPoints(const cv::Mat & i
             flat.push_back(x/255);
         }
     }
+<<<<<<< HEAD
+=======
+
+    face_model.setInput(flat);
+    cv::Mat detection = face_model.forward();
+
+
+    for (int i = 0; i < detection.rows; i++){
+        for (int j = 0; j < detection.cols; j++){
+            auto x = detection.at<uchar>(i, j);
+            std::cout << detection.at<int>(i, j) << " ";
+        }
+    }
+    std::cout << std::endl;
+
+>>>>>>> master
     std::vector<int> facial_points;
 
-    for (int i=0; i < 30; i++){
-        int x = 48*out(i) + 48;
-        facial_points.push_back(x);
+    for (int i=0; i < detection.cols; i++){
+        auto x = detection.at<uchar>(0, i);
+        int xx = 48*x + 48;
+        facial_points.push_back(xx);
     }
 
     return facial_points;
