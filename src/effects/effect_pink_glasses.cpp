@@ -12,7 +12,7 @@ EffectPinkGlasses::~EffectPinkGlasses() {}
 
 void EffectPinkGlasses::apply(cv::Mat & draw, std::vector<LandMarkResult> & faces) {
 
-    // *** Draw cloud animation
+    // *** Draw animation
     for (size_t i = 0; i < faces.size(); ++i) {
 
         // If we have landmark of face, use it to draw better
