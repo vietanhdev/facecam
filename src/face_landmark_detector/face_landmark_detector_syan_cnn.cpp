@@ -3,6 +3,8 @@
 
 FaceLandmarkDetectorSyanCNN::FaceLandmarkDetectorSyanCNN() {
     setDetectorName("SyanCNN");
+    fs::path TENSORFLOW_WEIGHT_FILE_PATH_ABS = fs::absolute(TENSORFLOW_WEIGHT_FILE);
+    face_model = cv::dnn::readNetFromTensorflow(TENSORFLOW_WEIGHT_FILE_PATH_ABS.string());
 }
 
 FaceLandmarkDetectorSyanCNN::~FaceLandmarkDetectorSyanCNN() {}
@@ -17,17 +19,31 @@ std::vector<int> FaceLandmarkDetectorSyanCNN::getFacialPoints(const cv::Mat & im
         }
     }
 
+    face_model.setInput(flat);
+    cv::Mat detection = face_model.forward();
+
+
+    // for (int i = 0; i < detection.rows; i++){
+    //     for (int j = 0; j < detection.cols; j++){
+    //         auto x = detection.at<uchar>(i, j);
+    //         std::cout << detection.at<int>(i, j) << " ";
+    //     }
+    // }
+    // std::cout << std::endl;
+
     std::vector<int> facial_points;
 
-    for (int i=0; i < 30; i++){
-        int x = 48*out(i) + 48;
-        facial_points.push_back(x);
+    for (int i=0; i < detection.cols; i++){
+        auto x = detection.at<uchar>(0, i);
+        int xx = 48*x + 48;
+        facial_points.push_back(xx);
     }
 
     return facial_points;
 }
 
 std::vector<LandMarkResult> FaceLandmarkDetectorSyanCNN::detect(const cv::Mat & img, std::vector<LandMarkResult> & faces) {
+
 
     if (faces.empty()) {
         return faces;

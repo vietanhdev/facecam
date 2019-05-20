@@ -69,7 +69,7 @@ add_executable(${PROJECT_NAME}
     "src/face_landmark_detector/face_landmark_detector_lbf.cpp"
 
     "src/face_landmark_detector/face_landmark_detector_syan_cnn.cpp"
-    "src/face_landmark_detector/face_landmark_detector_syan_cnn_2.cpp"
+    "src/face_landmark_detector/face_landmark_detector_syan_fnn.cpp"
 
     "src/effects/image_effect.cpp"
     "src/effects/effect_debug_info.cpp"

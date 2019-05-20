@@ -25,8 +25,8 @@
 #include "face_landmark_detector.h"
 #include "face_landmark_detector_kazemi.h"
 #include "face_landmark_detector_lbf.h"
+#include "face_landmark_detector_syan_fnn.h"
 #include "face_landmark_detector_syan_cnn.h"
-#include "face_landmark_detector_syan_cnn_2.h"
 
 #include "image_effect.h"
 #include "effect_debug_info.h"

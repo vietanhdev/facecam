@@ -330,9 +330,9 @@ void MainWindow::loadFaceLandmarkDetectors() {
         std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorSyanCNN()));
 
     
-    // Landmark Sy An CNN 2
+    // Landmark Sy An FNN
     face_landmark_detectors.push_back(
-        std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorSyanCNN2()));
+        std::shared_ptr<FaceLandmarkDetector>(new FaceLandmarkDetectorSyanFNN()));
         
 
     // Add detectors to selector box of GUI
