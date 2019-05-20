@@ -11,7 +11,11 @@
 class FaceLandmarkDetectorSyanCNN2 : public FaceLandmarkDetector {
 private:
     const std::string MODEL_PATH = "./models/alignment_syan_cnn/AN01.model";
-    std::shared_ptr<keras2cpp::Model> model;
+   const std::string TENSORFLOW_CONFIG_FILE =
+        "./models/alignment_syan_cnn/AN02.pbtxt";
+    const std::string TENSORFLOW_WEIGHT_FILE =
+        "./models/alignment_syan_cnn/AN02.pb";
+    cv::dnn::Net face_model;
 
 public:
     FaceLandmarkDetectorSyanCNN2();

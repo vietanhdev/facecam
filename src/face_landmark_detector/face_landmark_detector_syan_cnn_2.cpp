@@ -3,11 +3,9 @@
 
 FaceLandmarkDetectorSyanCNN2::FaceLandmarkDetectorSyanCNN2() {
     setDetectorName("SyanCNN 2");
-    fs::path MODEL_PATH_ABS = fs::absolute(MODEL_PATH);
-
-    // Initialize model
-    this->model = std::make_shared<keras2cpp::Model>(keras2cpp::Model::load(MODEL_PATH_ABS));    // Initialize model
-    
+    fs::path TENSORFLOW_WEIGHT_FILE_PATH_ABS = fs::absolute(TENSORFLOW_WEIGHT_FILE);
+    fs::path TENSORFLOW_CONFIG_FILE_PATH_ABS = fs::absolute(TENSORFLOW_CONFIG_FILE);
+    face_model = cv::dnn::readNetFromTensorflow(TENSORFLOW_WEIGHT_FILE_PATH_ABS.string());
 }
 
 FaceLandmarkDetectorSyanCNN2::~FaceLandmarkDetectorSyanCNN2() {}
@@ -22,22 +20,24 @@ std::vector<int> FaceLandmarkDetectorSyanCNN2::getFacialPoints(const cv::Mat & i
         }
     }
 
-    keras2cpp::Tensor in{96, 96, 1};
+    face_model.setInput(flat);
+    cv::Mat detection = face_model.forward();
 
-    in.data_ = flat;
 
-    // Load model each running time
-    // auto model = keras2cpp::Model::load("./models/alignment_syan_cnn/AN01.model");
-    // keras2cpp::Tensor out = model(in);
-
-    // Use preloaded model from constructor
-    keras2cpp::Tensor out = (*model)(in);
+    for (int i = 0; i < detection.rows; i++){
+        for (int j = 0; j < detection.cols; j++){
+            auto x = detection.at<uchar>(i, j);
+            std::cout << detection.at<int>(i, j) << " ";
+        }
+    }
+    std::cout << std::endl;
 
     std::vector<int> facial_points;
 
-    for (int i=0; i < 30; i++){
-        int x = 48*out(i) + 48;
-        facial_points.push_back(x);
+    for (int i=0; i < detection.cols; i++){
+        auto x = detection.at<uchar>(0, i);
+        int xx = 48*x + 48;
+        facial_points.push_back(xx);
     }
 
     return facial_points;
