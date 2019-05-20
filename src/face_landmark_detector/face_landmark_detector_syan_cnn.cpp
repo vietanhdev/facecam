@@ -36,6 +36,7 @@ std::vector<int> FaceLandmarkDetectorSyanCNN::getFacialPoints(const cv::Mat & im
     std::vector<int> facial_points;
 
     for (int i=0; i < 30; i++){
+        std::cout << out(i) << std::endl;
         int x = 48*out(i) + 48;
         facial_points.push_back(x);
     }

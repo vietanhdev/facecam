@@ -24,18 +24,19 @@ std::vector<int> FaceLandmarkDetectorSyanCNN2::getFacialPoints(const cv::Mat & i
     cv::Mat detection = face_model.forward();
 
 
-    for (int i = 0; i < detection.rows; i++){
-        for (int j = 0; j < detection.cols; j++){
-            auto x = detection.at<uchar>(i, j);
-            std::cout << detection.at<int>(i, j) << " ";
-        }
-    }
-    std::cout << std::endl;
+    // for (int i = 0; i < detection.rows; i++){
+    //     for (int j = 0; j < detection.cols; j++){
+    //         auto x = detection.at<uchar>(i, j);
+    //         std::cout << detection.at<int>(i, j) << " ";
+    //     }
+    // }
+    // std::cout << std::endl;
 
     std::vector<int> facial_points;
 
     for (int i=0; i < detection.cols; i++){
-        auto x = detection.at<uchar>(0, i);
+        auto x = detection.at<float>(0, i);
+        std::cout << x << std::endl;
         int xx = 48*x + 48;
         facial_points.push_back(xx);
     }
