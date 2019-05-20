@@ -282,22 +282,23 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 // Load face detectors
 void MainWindow::loadFaceDetectors() {
+    
     // SSD - ResNet10 detector
     face_detectors.push_back(
         std::shared_ptr<FaceDetector>(new FaceDetectorSSDResNet10()));
 
     // Haar cascade detector
     face_detectors.push_back(
-        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade-pretrained", "models/detect_haarcascade/haarcascade_frontalface.xml")));
+        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade - OpenCV model", "models/detect_haarcascade/haarcascade_frontalface.xml")));
 
     // Haar cascade detector v1
     face_detectors.push_back(
-        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade-v1", "models/detect_haarcascade/haarcascade_v1.xml")));
+        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("HaarCascade - T02_27", "models/detect_haarcascade/T02_27.xml")));
 
     // LBF cascade detector
     // Pretrained model v6 - vietanhdev
     face_detectors.push_back(
-        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("LBFCascade-v6", "models/detect_lbfcascade/lbf_fact_detect_6.xml")));
+        std::shared_ptr<FaceDetector>(new FaceDetectorCascade("LBFCascade - vietanhdev", "models/detect_lbfcascade/lbf_fact_detect_6.xml")));
 
     // Add detectors to selector box of GUI
     for (size_t i = 0; i < face_detectors.size(); ++i) {
