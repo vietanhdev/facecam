@@ -3,11 +3,6 @@
 
 FaceLandmarkDetectorSyanCNN::FaceLandmarkDetectorSyanCNN() {
     setDetectorName("SyanCNN");
-    fs::path MODEL_PATH_ABS = fs::absolute(MODEL_PATH);
-
-    // Initialize model
-    this->model = std::make_shared<keras2cpp::Model>(keras2cpp::Model::load(MODEL_PATH_ABS));    // Initialize model
-    
 }
 
 FaceLandmarkDetectorSyanCNN::~FaceLandmarkDetectorSyanCNN() {}
@@ -21,17 +16,6 @@ std::vector<int> FaceLandmarkDetectorSyanCNN::getFacialPoints(const cv::Mat & im
             flat.push_back(x/255);
         }
     }
-
-    keras2cpp::Tensor in{96, 96, 1};
-
-    in.data_ = flat;
-
-    // Load model each running time
-    // auto model = keras2cpp::Model::load("./models/alignment_syan_cnn/AN01.model");
-    // keras2cpp::Tensor out = model(in);
-
-    // Use preloaded model from constructor
-    keras2cpp::Tensor out = (*model)(in);
 
     std::vector<int> facial_points;
 

@@ -5,13 +5,10 @@
 #include <string>
 #include <iostream>
 #include "opencv2/face.hpp"
-#include "keras2cpp/model.h"
 
 
 class FaceLandmarkDetectorSyanCNN2 : public FaceLandmarkDetector {
 private:
-    const std::string MODEL_PATH = "./models/alignment_syan_cnn/AN01.model";
-    std::shared_ptr<keras2cpp::Model> model;
 
 public:
     FaceLandmarkDetectorSyanCNN2();
