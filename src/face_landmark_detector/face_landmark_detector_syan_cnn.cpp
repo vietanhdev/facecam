@@ -12,13 +12,13 @@ FaceLandmarkDetectorSyanCNN::~FaceLandmarkDetectorSyanCNN() {}
 std::vector<int> FaceLandmarkDetectorSyanCNN::getFacialPoints(const cv::Mat & image) {
     cv::Mat input_blob = cv::dnn::blobFromImage(image, 1/255, cv::Size(96, 96));
 
-    std::cout << "size: " << input_blob.size << std::endl;
-    for(int i=0; i<input_blob.rows; i++){
-        for(int j=0; j<input_blob.cols; j++){
-            std::cout << input_blob.at<float>(0,0,i);
-        }
-    }
-    std::cout << std::endl;
+    // std::cout << "size: " << input_blob.size << std::endl;
+    // for(int i=0; i<input_blob.rows; i++){
+    //     for(int j=0; j<input_blob.cols; j++){
+    //         std::cout << input_blob.at<float>(0,0,i);
+    //     }
+    // }
+    // std::cout << std::endl;
 
     face_model.setInput(input_blob);
     cv::Mat detection = face_model.forward();
