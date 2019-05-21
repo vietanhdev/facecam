@@ -10,7 +10,7 @@
 class FaceLandmarkDetectorSyanFNN : public FaceLandmarkDetector {
 private:
     const std::string TENSORFLOW_WEIGHT_FILE =
-        "./models/alignment_syan_fnn/AN02.pb";
+        "./models/alignment_syan_fnn/graph_model1_1x9216.pb";
     cv::dnn::Net face_model;
 
 public:

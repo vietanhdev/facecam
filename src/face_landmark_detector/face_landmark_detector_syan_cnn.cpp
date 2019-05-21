@@ -10,34 +10,28 @@ FaceLandmarkDetectorSyanCNN::FaceLandmarkDetectorSyanCNN() {
 FaceLandmarkDetectorSyanCNN::~FaceLandmarkDetectorSyanCNN() {}
 
 std::vector<int> FaceLandmarkDetectorSyanCNN::getFacialPoints(const cv::Mat & image) {
-    std::vector<float> flat;
+    cv::Mat input_blob = cv::dnn::blobFromImage(image, 1/255, cv::Size(96, 96));
 
-    for (int i = 0; i < image.rows; i++){
-        for (int j = 0; j < image.cols; j++){
-            auto x = image.at<uchar>(i, j);
-            flat.push_back(x/255);
+    std::cout << "size: " << input_blob.size << std::endl;
+    for(int i=0; i<input_blob.rows; i++){
+        for(int j=0; j<input_blob.cols; j++){
+            std::cout << input_blob.at<float>(0,0,i);
         }
     }
+    std::cout << std::endl;
 
-    face_model.setInput(flat);
+    face_model.setInput(input_blob);
     cv::Mat detection = face_model.forward();
-
-
-    // for (int i = 0; i < detection.rows; i++){
-    //     for (int j = 0; j < detection.cols; j++){
-    //         auto x = detection.at<uchar>(i, j);
-    //         std::cout << detection.at<int>(i, j) << " ";
-    //     }
-    // }
-    // std::cout << std::endl;
 
     std::vector<int> facial_points;
 
     for (int i=0; i < detection.cols; i++){
-        auto x = detection.at<uchar>(0, i);
+        auto x = detection.at<float>(0, i);
+        // std::cout << x << " ";
         int xx = 48*x + 48;
         facial_points.push_back(xx);
     }
+    // std::cout << std::endl;
 
     return facial_points;
 }
@@ -55,6 +49,20 @@ std::vector<LandMarkResult> FaceLandmarkDetectorSyanCNN::detect(const cv::Mat & 
     for (size_t i = 0; i < faces.size(); ++i) {
         
         cv::Rect face_rect = faces[i].getFaceRect();
+
+        int h = face_rect.height;
+        int w = face_rect.width;
+        int x = face_rect.x;
+        int y =face_rect.y;
+
+        int expand = (int)(h/5);
+        int half_expand = (int)(expand/2);
+        x -= half_expand;
+        y -= half_expand;
+        w += expand;
+        h += expand;
+
+        face_rect = cv::Rect(x, y, w, h);
 
         // Put face_rect into face_rects to find landmarks only if face_rect lies in the boundary of img.
         // This prevents crashing because of facemark->fit(img, face_rects, shapes);
